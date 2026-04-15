@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Teaching Eligibility Checker</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f4efe6;
+            --panel: #fffaf2;
+            --panel-strong: #fff;
+            --text: #1c1a17;
+            --muted: #655d51;
+            --accent: #1f5f5b;
+            --accent-strong: #144643;
+            --border: #d9ccb8;
+            --shadow: 0 20px 50px rgba(49, 37, 17, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Georgia, "Times New Roman", serif;
+            background:
+                radial-gradient(circle at top left, rgba(31, 95, 91, 0.16), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(180, 133, 67, 0.16), transparent 25%),
+                linear-gradient(180deg, #f7f3ec 0%, var(--bg) 100%);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 30px 24px 24px;
+        }
+
+        .card {
+            width: min(980px, 100%);
+            background: linear-gradient(180deg, var(--panel) 0%, var(--panel-strong) 100%);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            padding: 28px;
+        }
+
+        .eyebrow {
+            margin: 0 0 12px;
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .page-title {
+            width: min(980px, 100%);
+            margin: 0 0 14px;
+            color: var(--accent-strong);
+            font-size: clamp(2.4rem, 5.2vw, 3.5rem);
+            font-weight: 900;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
+            text-align: center;
+        }
+
+        .question-title {
+            margin: 0;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            line-height: 1;
+        }
+
+        .copy {
+            margin: 20px 0 28px;
+            color: var(--muted);
+            font-size: 1.08rem;
+            line-height: 1.7;
+            white-space: normal;
+        }
+
+        .options {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option-form {
+            margin: 0;
+        }
+
+        .option-button {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: #fff;
+            color: var(--text);
+            cursor: pointer;
+            padding: 16px 18px;
+            text-align: left;
+            font: inherit;
+            font-size: 1rem;
+            transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+        }
+
+        .option-button:hover,
+        .option-button:focus-visible {
+            transform: translateY(-1px);
+            border-color: var(--accent);
+            box-shadow: 0 14px 30px rgba(31, 95, 91, 0.12);
+            outline: none;
+        }
+
+        .footer {
+            margin-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .node-type {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .reset-link {
+            color: var(--accent-strong);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .reset-link:hover,
+        .reset-link:focus-visible {
+            text-decoration: underline;
+            outline: none;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 22px 16px 16px;
+            }
+
+            .card {
+                padding: 22px;
+                border-radius: 20px;
+            }
+
+            .copy {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="page-title">Are you eligible for teacher training?</h1>
+    <main class="card">
+        <h2 class="question-title">{{ node.title }}</h2>
+        <div class="copy">{{ node.text|urlize|linebreaksbr }}</div>
+
+        <section class="options" aria-label="Available answers">
+            {% for option in node.options %}
+                <form method="post" class="option-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ option.next }}">
+                    <button type="submit" class="option-button">{{ option.label }}</button>
+                </form>
+            {% endfor %}
+        </section>
+
+        <footer class="footer">
+            <span class="node-type">Current step type: {{ node.type }}</span>
+            <a href="/?node=start" class="reset-link">Start again</a>
+        </footer>
+    </main>
+</body>
+</html>
