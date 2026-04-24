@@ -45,6 +45,16 @@
             border-radius: 24px;
             box-shadow: var(--shadow);
             padding: 28px;
+            position: relative;
+        }
+
+        .card-logo {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            height: 52px;
+            width: auto;
+            object-fit: contain;
         }
 
         .eyebrow {
@@ -116,10 +126,39 @@
         .footer {
             margin-top: 24px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 16px;
+            justify-content: flex-start;
+            align-items: flex-end;
+            column-gap: 16px;
+            row-gap: 10px;
             flex-wrap: wrap;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            align-items: flex-start;
+            flex: 1 1 100%;
+            min-width: 0;
+        }
+
+        .footer-label {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .footer-link {
+            color: var(--accent-strong);
+            text-decoration: none;
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+        .footer-link:hover,
+        .footer-link:focus-visible {
+            text-decoration: underline;
+            outline: none;
         }
 
         .node-type {
@@ -131,6 +170,7 @@
             color: var(--accent-strong);
             text-decoration: none;
             font-weight: 700;
+            margin-left: auto;
         }
 
         .reset-link:hover,
@@ -152,12 +192,19 @@
             .copy {
                 font-size: 1rem;
             }
+
+            .card-logo {
+                height: 44px;
+                top: 14px;
+                right: 14px;
+            }
         }
     </style>
 </head>
 <body>
     <h1 class="page-title">Are you eligible for teacher training?</h1>
     <main class="card">
+        <img class="card-logo" src="/media/TSH.jpg" alt="TSH logo">
         <h2 class="question-title">{{ node.title }}</h2>
         <div class="copy">{{ node.text|urlize|linebreaksbr }}</div>
 
@@ -172,7 +219,14 @@
         </section>
 
         <footer class="footer">
-            <span class="node-type">Current step type: {{ node.type }}</span>
+            <div class="footer-links" aria-label="Contact links">
+                <div class="footer-label">
+                    Web address: <a class="footer-link" href="https://www.glftt.org">www.glftt.org</a>
+                </div>
+                <div class="footer-label">
+                    Email address: <a class="footer-link" href="mailto:info@glftt.org">info@glftt.org</a>
+                </div>
+            </div>
             <a href="/?node=start" class="reset-link">Start again</a>
         </footer>
     </main>
