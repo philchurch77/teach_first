@@ -55,7 +55,8 @@ FLOW = {
         "text": (
             "Do you have a recognised statement of comparability from ENIC/NARIC to show that you have "
             "at least a grade C or 4 in Maths and English for both Primary and Secondary teacher training routes, "
-            "and a Grade C/4 in Science for those candidates who want to teach on a Primary route?"
+            "and a Grade C/4 in Science for those candidates who want to teach on a Primary route?\n\n"
+            "(This is a compulsory expectation to train to teach in England.)"
         ),
         "options": [
             {"label": "Yes", "next": "overseas_eligibility_4"},
@@ -69,13 +70,16 @@ FLOW = {
         "title": "Next steps: ENIC Statement of Comparability",
         "text": (
             "Suggested next step:\n"
-            "• Contact ENIC with evidence of your overseas high school qualifications to gain a Statement of Comparability "
-            "(a certificate that shows how international qualifications compare to the UK education system).\n\n"
+            "• Contact ENIC with evidence of your overseas Secondary school qualifications to gain a Statement of Comparability "
+            "(a certificate that shows how international qualifications compare to the UK education system). "
+            "You will need this to progress.\n\n"
             "Please return to GLF Teacher Training once you have this, showing you have the equivalent of:\n"
             "• Grade C/4 in English and Maths (Primary & Secondary routes)\n"
             "• Grade C/4 in Science (Primary route only)\n\n"
             "There is a cost for this service which you will need to fund.\n"
-            "ENIC link: https://www.enic.org.uk/individuals/statement-of-comparability"
+            "ENIC link: https://www.enic.org.uk/individuals/statement-of-comparability\n\n"
+            "Contact us for support with this process:\n"
+            "info@glftt.org"
         ),
         "options": [
             {"label": "Continue", "next": "overseas_eligibility_4"},
@@ -94,10 +98,8 @@ FLOW = {
             "but you will need to provide an original certificate.\n\n"
             "The DfE states that qualifications in key and functional skills at level 2 are not equivalent to GCSEs "
             "in terms of content.\n\n"
-            "Recommended providers:\n"
-            "• Equivalency Testing: https://www.equivalencytesting.com/\n"
-            "• A Star Equivalency: https://astarequivalency.co.uk/\n"
-            "• Birmingham City University: https://www.bcu.ac.uk/education-and-social-work/initial-teacher-training/gcse-equivalency-test/gcse-equivalency-tests-non-bcu-applicants\n\n"
+            "We can recommend the following equivalency test provider:\n"
+            "• A Star Equivalency: https://astarequivalency.co.uk/\n\n"
             "If you need more support, you can email your ENIC comparability statement to our GLF ITT admin team for checking:\n"
             "info@glftt.org\n\n"
             "You may also find our weekly online information events helpful:\n"
@@ -134,7 +136,9 @@ FLOW = {
             "• Contact ENIC with evidence of your overseas degree-level qualifications to gain a Statement of Comparability.\n\n"
             "Please return to GLF Teacher Training once you have this, showing that you have an undergraduate degree equivalent to a UK "
             "bachelor’s degree with honours (comparable to a degree at a 2:2 or higher).\n\n"
-            "ENIC link: https://www.enic.org.uk/individuals/statement-of-comparability"
+            "ENIC link: https://www.enic.org.uk/individuals/statement-of-comparability\n\n"
+            "Contact us for support with this process:\n"
+            "info@glftt.org"
         ),
         "options": [
             {"label": "Continue", "next": "overseas_eligibility_5"},
@@ -150,19 +154,23 @@ FLOW = {
             "• If you are unsure, send your comparability statement to our GLF ITT admin team for checking and further support:\n"
             "info@glftt.org\n\n"
             "You may then consider one of the following options:\n\n"
-            "1) If your degree is equivalent to a foundation degree (Level 5), you may be able to do a ‘top up’ one-year course to gain a "
+            "1) If you have a 3rd class or ordinary degree, GLF Teacher Training may accept this in occasional "
+            "circumstances, but we will require additional information. Send your degree certificate and unit "
+            "breakdown to:\n"
+            "info@glftt.org\n\n"
+            "2) If your degree is equivalent to a foundation degree (Level 5), you may be able to do a ‘top up’ one-year course to gain a "
             "BA Honours degree:\n"
             "https://educationforyou.co.uk/articles/37\n\n"
-            "2) If your degree is not equivalent to a BA Honours or a Foundation degree:\n"
+            "3) If your degree is not equivalent to a BA Honours or a Foundation degree:\n"
             "Explore degree-based routes into teaching through a Teacher Degree Apprenticeship, or work as a Teaching Assistant while completing "
             "a BA Honours Degree via distance learning:\n"
             "https://www.glftt.org/16/routes-into-teaching\n\n"
-            "3) Study a UK-based degree from scratch (Education Studies or a specific Secondary subject). UCAS lists all undergraduate courses:\n"
+            "4) Study a UK-based degree from scratch (Education Studies or a specific Secondary subject). UCAS lists all undergraduate courses:\n"
             "https://www.ucas.com\n\n"
             "University guides you may find useful as a starting point:\n"
             "• Complete University Guide: https://www.thecompleteuniversityguide.co.uk/courses/search/undergraduate/education\n"
             "• Uni Compare: https://universitycompare.com/courses/degrees/undergraduate/education-studies\n"
-            "• Educations.com: https://www.educations.com/\n\n"
+            "• Educations: https://www.educations.com/\n\n"
             "For more support with the right option for you, contact:\n"
             "info@glftt.org"
         ),
@@ -215,11 +223,9 @@ FLOW = {
             "GLF Teacher Training will accept equivalency tests from recognised providers taken within the last 3 years, but you will need to "
             "provide an original certificate.\n\n"
             "The DfE states that qualifications in key and functional skills at level 2 are not equivalent to GCSEs in terms of content.\n\n"
-            "Recommended providers:\n"
-            "• Equivalency Testing: https://www.equivalencytesting.com/\n"
-            "• A Star Equivalency: https://astarequivalency.co.uk/\n"
-            "• Birmingham City University: https://www.bcu.ac.uk/education-and-social-work/initial-teacher-training/gcse-equivalency-test/gcse-equivalency-tests-non-bcu-applicants\n\n"
-            "These equivalency tests will need to be funded by the candidate."
+            "We can recommend the following equivalency test provider:\n"
+            "• A Star Equivalency: https://astarequivalency.co.uk/\n\n"
+            "Candidates are responsible for funding any equivalency tests."
         ),
         "options": [
             {"label": "Continue", "next": "domestic_eligibility_2"},
@@ -248,19 +254,23 @@ FLOW = {
             "• If you are not sure, send your Degree certificate to our GLF ITT admin team for checking and further support:\n"
             "info@glftt.org\n\n"
             "You may then consider one of the following options:\n\n"
-            "1) If your degree is not BA Honours level but is a foundation degree (Level 5), you may be able to do a ‘top up’ one-year course to gain a "
+            "1) If you have a 3rd class or ordinary degree, GLF Teacher Training may accept this in occasional "
+            "circumstances, but we will require additional information. Send your degree certificate and unit "
+            "breakdown to:\n"
+            "info@glftt.org\n\n"
+            "2) If your degree is not BA Honours level but is a foundation degree (Level 5), you may be able to do a ‘top up’ one-year course to gain a "
             "BA Honours degree:\n"
             "https://educationforyou.co.uk/articles/37\n\n"
-            "2) If your degree is not a BA Honours or a Foundation degree:\n"
+            "3) If your degree is not a BA Honours or a Foundation degree:\n"
             "Explore degree-based routes into teaching through a Teacher Degree Apprenticeship, or work as a Teaching Assistant while completing a BA Honours "
             "Degree via distance learning:\n"
             "https://www.glftt.org/16/routes-into-teaching\n\n"
-            "3) Study a UK-based degree from scratch (Education Studies or a specific Secondary subject). UCAS lists all undergraduate degree courses:\n"
+            "4) Study a UK-based degree from scratch (Education Studies or a specific Secondary subject). UCAS lists all undergraduate degree courses:\n"
             "https://www.ucas.com\n\n"
             "University guides you may find useful as a starting point:\n"
             "• Complete University Guide: https://www.thecompleteuniversityguide.co.uk/courses/search/undergraduate/education\n"
             "• Uni Compare: https://universitycompare.com/courses/degrees/undergraduate/education-studies\n"
-            "• Educations.com: https://www.educations.com/"
+            "• Educations: https://www.educations.com/"
         ),
         "options": [
             {"label": "Finish", "next": "closing_statement_3"},
@@ -286,7 +296,8 @@ FLOW = {
         "title": "Routes into Teaching",
         "text": (
             "GLF Teacher Training has three employment-based routes into teaching. "
-            "All these routes have specific eligibility requirements regarding school experience and require a school willing to support/employ you on these routes."
+            "All routes have specific eligibility requirements, including at least one year of classroom teaching experience, "
+            "and require a school willing to support/employ you on these routes."
         ),
         "options": [
             {"label": "Continue", "next": "employment_routes_1"},
@@ -298,11 +309,11 @@ FLOW = {
         "type": "statement",
         "title": "Routes into Teaching",
         "text": (
-            "GLF Teacher Training offers a fee-funded route into teaching that does not require a school employment-based contract "
-            "and allows trainees to take on teaching classes in manageable milestones."
+            "GLF Teacher Training offers fee-funded routes into teaching that do not require a school employment-based contract "
+            "and allow trainees to take on teaching classes in manageable milestones."
         ),
         "options": [
-            {"label": "Continue", "next": "fee_paying_route"},
+            {"label": "Continue", "next": "fee_funded_routes_1"},
             {"label": "Back", "next": "routes_into_teaching_1"},
         ],
     },
@@ -310,7 +321,10 @@ FLOW = {
     "employment_routes_1": {
         "type": "question",
         "title": "Employment-Based Routes 1",
-        "text": "Do you have classroom experience?",
+        "text": (
+            "Do you have classroom experience of at least one year of teaching students "
+            "in the UK education system?"
+        ),
         "options": [
             {"label": "Yes", "next": "employment_routes_2"},
             {"label": "No", "next": "employment_routes_no_experience"},
@@ -322,10 +336,10 @@ FLOW = {
         "title": "Employment-Based Routes",
         "text": (
             "It is unlikely that schools will pay a salary and potentially training fees for candidates with no school experience. "
-            "You would be more suited to our fee-paying route."
+            "You would be more suited to one of our fee-funded routes."
         ),
         "options": [
-            {"label": "Continue", "next": "fee_paying_route"},
+            {"label": "Continue", "next": "fee_funded_routes_1"},
             {"label": "Back", "next": "employment_routes_1"},
         ],
     },
@@ -336,35 +350,60 @@ FLOW = {
         "text": (
             "We have outlined the details and eligibility for each of GLF’s employment-based routes below.\n\n"
             "Salaried Route\n"
-            "Salaried routes are for qualifying candidates with at least a year of school experience. This means candidates will not have to pay tuition fees "
-            "and will receive a salary while training to become qualified teachers. Candidates will become an unqualified teacher employed by a school for the "
-            "duration of the training programme. This route offers a QTS paid by the schools and gives a PGCE option at an additional cost to the candidate. "
-            "The University of Brighton accredits the PGCE, with learning that is integral to the course and supported by the candidate's course tutor. "
-            "Candidates will be expected to have some of their own classes independently from day one, with some time out of school for training. These courses "
-            "are in high demand and very competitive, so it’s essential to apply as soon as possible if you’re eligible. Candidates will need a school willing to "
-            "employ them, pay their salary and pay their training fees to the training provider. The length of this course is approximately 10 months.\n\n"
+            "The salaried route is an employment-based, full-time programme lasting one academic year, from September to July. "
+            "Places are very limited and depend on an employing school’s needs and capacity, so they are often best suited to "
+            "existing school employees or candidates with substantial classroom/teaching experience. Salaried trainees are employed "
+            "by a school as unqualified teachers, receive a salary, and may take responsibility for teaching from the start, with "
+            "their timetable determined by their experience and some unsupervised teaching of a class from day one. The employing "
+            "school pays the QTS training fee and salary, so candidates do not pay tuition fees. Trainees can also study for a "
+            "University of Brighton-validated PGCE with 60 Master’s-level credits alongside QTS; salaried trainees pay an "
+            "additional £500 for this option. Salaried trainees are not eligible for other student finance, bursaries or "
+            "scholarships. Candidates must secure the support of a school willing to employ them and meet the associated salary "
+            "and training costs. Because opportunities are limited and competitive, candidates should contact GLF Teacher Training "
+            "about availability and apply promptly when suitable vacancies are advertised.\n"
+            "Live Postgraduate GLF vacancies are posted on ETeach under GLF Schools:\n"
+            "https://www.eteach.com/careers/glfschools/\n\n"
             "Postgraduate Teacher Apprenticeship Route\n"
-            "Postgraduate Teacher Apprenticeships in Primary and a range of Secondary Subjects (for qualifying candidates). This route pays candidates' training fees "
-            "via the organisation's apprenticeship training levy pot, and the candidate receives a salary while training. Candidates will be Apprentice employees in "
-            "a school for the duration of their apprenticeship. This route offers a QTS paid by the Trust and gives a PGCE option at an additional cost to the candidate. "
-            "The University of Brighton accredits the PGCE, with learning that is integral to the course and supported by a course tutor. Candidates may be expected to "
-            "have some of their own classes independently from day one, with 20% of their time out of school for training. Candidates will need a school willing to employ "
-            "them, pay their salary, and have GLF, as a Trust, pay their training fees. To access the DFE training levy, candidates must have a British Passport and have "
-            "been in the country for three years. The length of this course is approximately 10 months.\n\n"
+            "The Postgraduate Teacher Apprenticeship is a full-time, employment-based route available in primary and selected "
+            "secondary subjects, depending on local vacancies and school capacity. Applicants would ordinarily have at least one "
+            "year’s experience in an educational setting, supported by references, and must have the support of an employing "
+            "school willing to employ them as an apprentice. The school employs apprentices, usually on the unqualified teachers’ "
+            "pay scale, while the apprenticeship levy funds the training fee. Apprentices are based in school for four days each "
+            "week and complete off-the-job training for the remainder of their time. Teaching responsibility increases with "
+            "experience and progress. The programme leads to the Level 6 Teacher Apprenticeship and Qualified Teacher Status. "
+            "Apprentices may also opt to complete a PGCE with 60 Master’s-level credits, validated by the University of Brighton, "
+            "at an additional cost of £1,100 for 2027/28; apprenticeship funding cannot be used for this second qualification. "
+            "Apprentices are not eligible for student finance, bursaries or scholarships. Eligibility for apprenticeship funding "
+            "depends on current residency and right-to-work requirements, not specifically on holding a British passport. "
+            "Opportunities are limited and are often offered to existing school employees, such as teaching assistants or cover "
+            "supervisors, so candidates should contact GLF Teacher Training to discuss availability.\n"
+            "Live Postgraduate GLF vacancies are posted on ETeach under GLF Schools:\n"
+            "https://www.eteach.com/careers/glfschools/\n\n"
             "Assessment Only Route\n"
-            "This route is for qualifying candidates with significant school experience. Candidates can only take the assessment route if they already meet the standards for "
-            "qualified teacher status (QTS), and they do not need any further training or time to get the required evidence to pass QTS. Candidates must be ready to meet the "
-            "Teachers’ Standards. Candidates must currently be teaching in a school, have worked in two or more school settings and across two age phases to meet the ITT entry criteria.\n\n"
-            "Candidates must show they can meet the Teachers’ Standards across two age phases, encompassing a range of assessments and teaching and learning approaches. "
-            "Candidates’ experience in assessment, teaching, and planning must take into account both physical and developmental ages.\n\n"
-            "Candidates must demonstrate they have sufficient and appropriate experience in their chosen age phases and should undertake a second school experience for at least 6 weeks "
-            "in a mainstream setting to support their evidence for the Teachers’ Standards.\n\n"
-            "Candidates should teach a minimum of 50% and a maximum of 80% of an experienced teacher’s timetable for the duration of the assessment period.\n\n"
-            "Applicants must have the opportunity to work with adults other than teachers and pupils across the ability range within the school, and in the school's pastoral setting. "
-            "Secondary applicants’ timetables are expected to have 80% of their teaching commitment to their specialist subject.\n\n"
-            "Candidates will undergo a series of assessments and provide a portfolio, and this programme takes up to 12 weeks. All candidates taking the assessment-only route will require "
-            "an initial meeting to ensure they qualify and will need the employing school's support.\n\n"
-            "The cost of the Assessment Only Assessment programme will need to be paid by the candidate or employing school."
+            "This route is for qualifying candidates with significant school experience of at least two years. Candidates can take "
+            "the assessment route only if they already meet the standards for qualified teacher status (QTS) and do not need "
+            "further training or time to gather the evidence required to pass QTS. Candidates must be ready to meet the "
+            "Teachers’ Standards on assessment and have all required evidence. To meet the ITT entry criteria, candidates must "
+            "currently be teaching in a school, have the support of the headteacher, and have worked in two or more school "
+            "settings and across the two age phases they are being assessed in, such as KS1 and KS2, or aged 11–16.\n\n"
+            "Candidates must show they can meet the Teachers’ Standards across two age phases, encompassing a range of "
+            "assessments and teaching and learning approaches. Candidates’ experience in assessment, teaching, and planning "
+            "must consider both physical and developmental ages. Candidates will need a reference from both headteachers "
+            "confirming they have met all the Teachers’ Standards:\n"
+            "https://www.gov.uk/government/publications/teachers-standards\n\n"
+            "Candidates with only one school experience must demonstrate they have sufficient and appropriate experience in their "
+            "chosen age phases and should undertake a second school experience for at least 6 weeks in a mainstream setting to "
+            "support their evidence for the Teachers’ Standards.\n\n"
+            "Candidates should teach a minimum of 50% and a maximum of 80% of an experienced teacher’s timetable for the "
+            "duration of the assessment period.\n\n"
+            "Applicants must have the opportunity to work with adults other than teachers and pupils across the ability range "
+            "within the school, and in the school's pastoral setting. Secondary applicants’ timetables are expected to have "
+            "80% of their teaching commitment to their specialist subject.\n\n"
+            "Candidates will undergo a series of assessments and provide a portfolio, and this programme takes up to 12 weeks. "
+            "All candidates taking the assessment-only route will require an initial meeting to ensure they qualify and will need "
+            "the employing school's support.\n\n"
+            "The cost of the Assessment Only programme will need to be paid by the candidate or employing school. "
+            "Contact info@glftt.org for accurate fee information."
         ),
         "options": [
             {"label": "Continue", "next": "subject_phase_1"},
@@ -372,24 +411,82 @@ FLOW = {
         ],
     },
 
-    "fee_paying_route": {
-        "type": "statement",
-        "title": "Fee-paying Routes into Teaching",
+    # -----------------------------
+    # FEE-FUNDED ROUTES
+    # -----------------------------
+    "fee_funded_routes_1": {
+        "type": "question",
+        "title": "Fee-Funded Routes into Teaching",
         "text": (
-            "Fee-paying routes: Some teacher training courses are fee-funded. This means candidates must pay tuition fees and will not earn a salary while they train.\n\n"
-            "There are ways to fund training to support candidates, such as tuition fees and maintenance loans. Find out more about student and maintenance loans:\n"
+            "There are two fee-funded routes to choose from, and neither requires a school employment contract.\n\n"
+            "Which would you like to know more about?"
+        ),
+        "options": [
+            {"label": "Full-time — one academic year, September to July", "next": "fee_funded_full_time"},
+            {"label": "Flexible — four terms, September 2027 to December 2028", "next": "fee_funded_flexible"},
+        ],
+    },
+
+    "fee_funded_full_time": {
+        "type": "statement",
+        "title": "Full-time Fee-Funded Route",
+        "text": (
+            "The fee-funded route is a full-time, school-based programme for trainees who are not employed or salaried during training. "
+            "This is a gentler route into teaching, perfect for those with no/less school or teaching experience. This is a popular route "
+            "for graduates and those who want to take on teaching episodes alongside an experienced teacher, at their own pace.\n\n"
+            "Fee-funded trainees are supernumerary and are not expected to teach independently from day one. A qualified teacher remains "
+            "in the classroom to provide support and feedback while trainees progress from structured observation and co-teaching to "
+            "planning and delivering lessons. Their teaching timetable increases gradually across the three terms, in line with their "
+            "development and programme milestones, reaching up to 80% of a full teacher’s timetable by the end of the programme.\n\n"
+            "For 2027/28, the fees are £9,550 for QTS only or £10,050 for QTS with the PGCE. Trainees can self-fund or, subject to "
+            "eligibility, apply for a tuition fee loan and a maintenance loan through Student Finance England. Eligible secondary "
+            "trainees may also receive a tax-free Department for Education bursary or scholarship; availability and amounts depend on "
+            "the subject and current national funding arrangements. Bursaries and scholarships are paid directly to eligible trainees "
+            "and can be taken alone or alongside a tuition fee loan, but a trainee cannot receive both a bursary and a scholarship.\n\n"
+            "Further information about student finance, bursaries and scholarships:\n"
             "https://getintoteaching.education.gov.uk/landing/how-to-fund-your-teacher-training\n\n"
-            "Secondary candidates may also be eligible for a Department for Education tax-free bursary or scholarship (depending on the subject). Details of subject bursaries and scholarships can be found here:\n"
-            "https://getintoteaching.education.gov.uk/landing/how-to-fund-your-teacher-training\n\n"
-            "For fee-funded routes, the bursary is paid directly to the candidate; for employment-based routes, it is paid to the employing school to offset salary costs.\n\n"
-            "This route comes with a QTS and PGCE option. The University of Brighton accredits the PGCE, with learning that is integral to your course and supported by your course tutors. "
-            "The length of this course is approximately 10 months.\n\n"
-            "Trainees on this route will be supernumerary and will support class teachers, taking on more responsibility for class teaching when the candidate is ready and in line with expected "
-            "teaching milestones per term."
+            "The full-time programme runs for one academic year, from September to July, and leads to Qualified Teacher Status. "
+            "Trainees may choose QTS only or study for a University of Brighton-validated PGCE with 60 Master’s-level credits "
+            "alongside their QTS. The PGCE is integrated throughout the training year and is delivered jointly by Inspiring Future "
+            "Teachers and University of Brighton tutors."
         ),
         "options": [
             {"label": "Continue", "next": "subject_phase_1"},
-            {"label": "Back to Routes", "next": "routes_into_teaching_1"},
+            {"label": "Back", "next": "fee_funded_routes_1"},
+        ],
+    },
+
+    "fee_funded_flexible": {
+        "type": "statement",
+        "title": "Flexible Fee-Funded Route",
+        "text": (
+            "GLF Teacher Training’s Flexible Fee-Funded Route is a full-time, school-based programme for candidates who would "
+            "benefit from completing their training over a longer period. Launching in September 2027, it runs over four school terms "
+            "and ends in December 2028. The route leads to Qualified Teacher Status only and does not include a PGCE option.\n\n"
+            "For 2027/28, the tuition fee is £10,050. Trainees complete a second school placement during the second half of the "
+            "summer term and must attend all four Intensive Training and Practice weeks in full. Availability is limited, so candidates "
+            "should contact GLF Teacher Training to confirm whether the route is available in their preferred phase, subject and "
+            "location.\n\n"
+            "The flexible fee-funded route is a school-based training programme for trainees who are not employed or salaried during "
+            "training. This is a gentler route into teaching, perfect for those with no/less school or teaching experience. This is a "
+            "popular route for graduates and those who want to take on teaching episodes alongside an experienced teacher, at their "
+            "own pace.\n\n"
+            "Flexible fee-funded trainees are supernumerary and are not expected to teach independently from day one. A qualified "
+            "teacher remains in the classroom to provide support and feedback while trainees progress from structured observation and "
+            "co-teaching to planning and delivering lessons. Their teaching timetable increases gradually, in line with their "
+            "development and programme milestones, reaching up to 80% of a full teacher’s timetable by the end of the programme "
+            "in term 4.\n\n"
+            "Trainees can self-fund or, subject to eligibility, apply for a tuition fee loan and a maintenance loan through Student "
+            "Finance England. Eligible secondary trainees may also receive a tax-free Department for Education bursary or scholarship; "
+            "availability and amounts depend on the subject and current national funding arrangements. Bursaries and scholarships are "
+            "paid directly to eligible trainees and can be taken alone or alongside a tuition fee loan, but a trainee cannot receive "
+            "both a bursary and a scholarship.\n\n"
+            "Further information about student finance, bursaries and scholarships:\n"
+            "https://getintoteaching.education.gov.uk/landing/how-to-fund-your-teacher-training"
+        ),
+        "options": [
+            {"label": "Continue", "next": "subject_phase_1"},
+            {"label": "Back", "next": "fee_funded_routes_1"},
         ],
     },
 
@@ -411,8 +508,8 @@ FLOW = {
         "title": "Subject & Phase 2",
         "text": "Do you want to teach Primary at ages 3–7 or 7–11?",
         "options": [
-            {"label": "Primary ages 3–7", "next": "flexibility"},
-            {"label": "Primary ages 7–11", "next": "flexibility"},
+            {"label": "Primary ages 3–7", "next": "training_locations"},
+            {"label": "Primary ages 7–11", "next": "training_locations"},
         ],
     },
 
@@ -423,42 +520,14 @@ FLOW = {
             "Do you want to teach in Secondary Shortage Subjects or other Secondary subjects?\n\n"
             "Shortage Subjects are those with a bursary attached. For 26–27, this is Biology, Chemistry, Computing, Design and Technology, Geography, Languages, "
             "Maths and Physics. Bursary amounts can be found here:\n"
-            "https://getintoteaching.education.gov.uk/landing/how-to-fund-your-teacher-training\n\n"
+            "https://getintoteaching.education.gov.uk/landing/how-to-fund-your-teacher-training\n"
+            "Bursary amounts change every year, so please check for updates.\n\n"
             "For fee-funded routes, the bursary is paid directly to the candidate; for employment-based routes, it is paid to the employing school to offset salary costs.\n\n"
             "Non-Shortage Secondary Subjects are any other subjects and do not come with any bursary. Candidates can still apply for a Student and Maintenance loan to cover training costs."
         ),
         "options": [
-            {"label": "Secondary Shortage Subjects", "next": "flexibility"},
-            {"label": "Secondary Non-Shortage Subjects", "next": "flexibility"},
-        ],
-    },
-
-    # -----------------------------
-    # FLEXIBILITY
-    # -----------------------------
-    "flexibility": {
-        "type": "question",
-        "title": "Flexibility",
-        "text": "Do you wish to train flexibly on GLF’s flexible training route?",
-        "options": [
-            {"label": "Yes", "next": "flexible_training_route"},
-            {"label": "No", "next": "training_locations"},
-        ],
-    },
-
-    "flexible_training_route": {
-        "type": "statement",
-        "title": "Flexible Training Route",
-        "text": (
-            "Flexible training routes: GLF Teacher Training offer this route in Secondary shortage subjects, in a range of subjects. "
-            "We also offer this for some eligible candidates in Primary and non-shortage Secondary subjects.\n\n"
-            "This is a flexible way for postgraduate candidates to train to teach. This training route allows candidates to train over five terms, supporting them in managing "
-            "work/life balance, continuing other work/studies, or building towards a part-time teaching career.\n\n"
-            "This route is available only as a QTS option."
-        ),
-        "options": [
-            {"label": "Continue", "next": "training_locations"},
-            {"label": "Back", "next": "flexibility"},
+            {"label": "Secondary Shortage Subjects", "next": "training_locations"},
+            {"label": "Secondary Non-Shortage Subjects", "next": "training_locations"},
         ],
     },
 
@@ -483,8 +552,9 @@ FLOW = {
         "type": "question",
         "title": "Next Steps 1",
         "text": (
-            "We offer the chance for candidates to visit one of our GLF Teacher Training Schools for a School Experience visit. "
-            "This can help you decide on the subject/phase that is right for you and help you meet the teachers and children you would be working with.\n\n"
+            "We offer the chance for candidates to visit one of our GLF Teacher Training Schools in this region for a day-long "
+            "School Experience visit. This can help you decide on the subject/phase that is right for you and help you meet the "
+            "teachers and children you would be working with.\n\n"
             "Would you like us to set this up for you?"
         ),
         "options": [
@@ -497,8 +567,10 @@ FLOW = {
         "type": "statement",
         "title": "Next Steps 2",
         "text": (
-            "Please complete our enquiry form, noting in question 14 where you would like school experience.\n\n"
-            "Alternatively, contact us and we can set this up for you:\n"
+            "Please complete our enquiry form, noting where you would like school experience:\n"
+            "https://forms.office.com/pages/responsepage.aspx?id=A0fOQITwQUy0ICoaMUBRJ6y1g0Xjm71LjaZx0sst-dFUQTZQUFhXU1ZFWUk5TVhXV05BQUNXV0c0QiQlQCN0PWcu&route=shorturl\n\n"
+            "Alternatively, you can book onto GLF Teacher Training’s School Experience by emailing us and we can set this up "
+            "for you:\n"
             "info@glftt.org"
         ),
         "options": [
@@ -510,8 +582,8 @@ FLOW = {
         "type": "question",
         "title": "Next Steps 3",
         "text": (
-            "We offer a range of engagement events to promote what GLF Teacher Training has to offer, including a weekly online Coffee and Chat "
-            "and regional face-to-face recruitment events in our schools.\n\n"
+            "We offer a range of engagement events to promote what GLF Teacher Training has to offer, including a weekly online "
+            "Learn More About Getting Into Teaching event and regional face-to-face recruitment events in our schools.\n\n"
             "Would you like to attend?"
         ),
         "options": [
@@ -586,7 +658,10 @@ FLOW = {
         "text": (
             "Thanks for your interest in teacher training with GLF Teacher Training, and we wish you luck with your next steps. "
             "We look forward to hearing from you once you have the necessary documentation/qualifications.\n\n"
-            "Once you have your degree, please come back to GLF Teacher Training, and we would be happy to support you to gain QTS at this point."
+            "Once you have your degree, please come back to GLF Teacher Training, and we would be happy to support you to gain QTS "
+            "at this point.\n\n"
+            "Contact us for support with this process:\n"
+            "info@glftt.org"
         ),
         "options": [
             {"label": "Start over", "next": "start"},
@@ -604,17 +679,20 @@ FLOW = {
             "Or fill in our enquiry form and we will be in touch:\n"
             "https://forms.office.com/pages/responsepage.aspx?id=A0fOQITwQUy0ICoaMUBRJ6y1g0Xjm71LjaZx0sst-dFUQTZQUFhXU1ZFWUk5TVhXV05BQUNXV0c0QiQlQCN0PWcu&route=shorturl\n\n"
             "GLF Teacher Training has a lot to offer:\n"
-            "• Whether you are considering joining as a graduate straight from university, moving into teaching from a school support role, or changing careers, "
-            "there is a training route at GLF for you.\n"
-            "• Teaching is a rewarding career like no other. Although it can be challenging at times, you always know that each day you go to work, you make a difference.\n"
-            "• No two days are the same; you are guaranteed to work as part of a team with whom you can laugh and learn.\n"
+            "• Whether you are considering joining as a graduate straight from university, moving into teaching from a school "
+            "support role, or joining us as a career changer, there is a training route at GLF for you.\n"
+            "• Teaching is a career with financial support to train, a competitive starting salary, and the ability to progress "
+            "financially as you become a more experienced teacher or move into leadership roles. It also offers a generous pension.\n"
+            "• Training to teach within one of GLF’s 43 Trust Schools offers excellent career progression opportunities within "
+            "the same Trust. GLF offers a range of career pathways, from pastoral support and teaching and learning to leadership.\n"
+            "• Teaching allows you time in the school holidays to make time for your family or other commitments.\n"
+            "• Teaching is a rewarding career like no other; you always know that each day you go to work, you make a difference. "
+            "No two days are the same; you are guaranteed to work as part of a team you can laugh and learn with.\n"
             "• You can make a difference to the lives of young people as you see them learn, grow, and flourish.\n"
-            "• If you are passionate about your subject or phase of education, put this to work and inspire the next generation.\n"
-            "• Teaching is a career with financial support to train, a competitive starting salary, progression opportunities, and a generous pension.\n"
-            "• There are flexible training routes and part-time teaching options available. Term-time contracts can support candidates in managing work and family life.\n"
-            "• Training to teach within one of GLF Trust Schools offers excellent career progression opportunities.\n"
-            "• Your continued professional development matters to us. We will support you throughout your teacher training, your first teaching position as an early career teacher, and beyond.\n\n"
-            "We look forward to hearing from you.\n\n"
+            "• Your continued professional development matters to us. Training to teach with GLF SCITT is like joining our family "
+            "of partner schools with a Department for Education-accredited Teaching School Hub, proving that we are experts in "
+            "supporting you throughout your teacher training, your first teaching position as an early career teacher, and beyond.\n\n"
+            "Thanks for your interest, and we look forward to hearing from you.\n\n"
             "Every Teacher Shapes a Life."
         ),
         "options": [
