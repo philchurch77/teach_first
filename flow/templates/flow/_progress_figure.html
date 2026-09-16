@@ -1,0 +1,65 @@
+{% comment %}
+The progress ring.
+
+The geometry here and the constants in flow/progress.py describe the same
+curve: centre (100, 104), radius 76, a 220-degree sweep from 200 to -20, arc
+length 291.8. The two <path d="..."> values below are that arc. Change one and
+you must change the other.
+
+Everything renders at its TARGET value, with the previously shown value in
+data-prev-* attributes. That is deliberate and it is the reverse of the design
+prototype: with JavaScript off, or under prefers-reduced-motion, the
+server-rendered markup is already correct rather than frozen one node behind.
+The script at the foot of flow.html snaps the ring back to the previous value
+with transitions suppressed, then releases it, so the fill animates from where
+the visitor last saw it.
+
+The figure is aria-hidden; the stage and percentage beneath it are real text.
+{% endcomment %}
+<svg class="ring" viewBox="0 0 200 152" aria-hidden="true" focusable="false"
+     style="--head-hex: {{ head_colour_hex }}; --head-oklch: {{ head_colour }};"
+     data-hex="{{ head_colour_hex }}" data-oklch="{{ head_colour }}"
+     data-prev-hex="{{ prev_head_colour_hex }}" data-prev-oklch="{{ prev_head_colour }}">
+    <defs>
+        <linearGradient id="arcGrad" gradientUnits="userSpaceOnUse"
+                        x1="24" y1="104" x2="176" y2="104">
+            <stop offset="0" stop-color="#1f5f5b"></stop>
+            <stop offset="0.55" stop-color="#3f7d63"></stop>
+            <stop offset="1" stop-color="#c08a3e"></stop>
+        </linearGradient>
+    </defs>
+
+    <path class="ring-track" d="M28.6 130 A76 76 0 1 1 171.4 130"></path>
+
+    <path class="ring-progress" d="M28.6 130 A76 76 0 1 1 171.4 130"
+          stroke-dasharray="{{ arc_len }}"
+          stroke-dashoffset="{{ dash_offset }}"
+          data-offset="{{ dash_offset }}"
+          data-prev-offset="{{ prev_dash_offset }}"></path>
+
+    {% for tick in ticks %}
+        <circle class="ring-tick{% if tick.reached %} is-reached{% endif %}"
+                r="2.4" cx="{{ tick.x }}" cy="{{ tick.y }}"
+                data-reached="{{ tick.reached|yesno:"1,0" }}"
+                data-prev-reached="{{ tick.was_reached|yesno:"1,0" }}"></circle>
+    {% endfor %}
+
+    <g class="ring-head"
+       transform="translate({{ head_x }} {{ head_y }})"
+       data-transform="translate({{ head_x }} {{ head_y }})"
+       data-prev-transform="translate({{ prev_head_x }} {{ prev_head_y }})">
+        {# fill-box on this circle is required; see .ring-head-glow in flow.css. #}
+        <circle class="ring-head-glow" r="12"></circle>
+        <circle class="ring-head-ring" r="8"></circle>
+        <circle class="ring-head-core" r="5"></circle>
+    </g>
+
+    <text class="ring-stage-number" x="100" y="112" text-anchor="middle">{{ stage_number }}</text>
+</svg>
+
+<p class="figure-meta">
+    <span class="figure-stage">
+        {{ stage_label }}<span class="sr-only"> — stage {{ stage_position }} of {{ stage_count }}</span>
+    </span>
+    <span class="figure-pct">{{ pct }}% complete</span>
+</p>

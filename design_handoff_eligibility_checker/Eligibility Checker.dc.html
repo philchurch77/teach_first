@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  body { margin: 0; background: #f4efe6; color: #211e19; font-family: Newsreader, Georgia, serif; }
+  a { color: #144643; }
+  a:hover { color: #1f5f5b; }
+  @keyframes swoopA { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  @keyframes swoopB { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  @keyframes headPulse { 0% { transform: scale(1); opacity: .5; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
+  @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+</style>
+</helmet>
+<div style="min-height: 100vh; padding: 34px 26px 60px; background: radial-gradient(1200px 600px at 12% -10%, rgba(31,95,91,.13), transparent 60%), radial-gradient(900px 520px at 108% 112%, rgba(180,133,67,.16), transparent 60%), linear-gradient(180deg, #f8f4ed 0%, #f2ece1 100%);">
+  <div style="max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 26px;">
+
+    <header style="display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center;">
+      <div style="font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: #6b6255;">GLF Teacher Training</div>
+      <h1 style="margin: 0; font-size: clamp(2rem, 4.4vw, 3.1rem); line-height: 1.02; font-weight: 500; letter-spacing: -.015em; color: #123f3c; text-wrap: balance;">Are you eligible for teacher training?</h1>
+      <p style="margin: 0; max-width: 46ch; font-size: 1.02rem; line-height: 1.5; color: #6b6255;">Answer a few questions and we will point you to the route, the paperwork and the people who can help.</p>
+    </header>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+
+      <aside style="flex: 1 1 250px; max-width: 320px; display: flex; flex-direction: column; gap: 18px; position: sticky; top: 24px;">
+        <div style="position: relative; background: linear-gradient(180deg, #fffdf8 0%, #fff 100%); border: 1px solid #e0d4c1; border-radius: 22px; box-shadow: 0 14px 34px rgba(49,37,17,.09); padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px;">
+          <sc-if value="{{ isTree }}">
+            <svg viewBox="0 0 200 172" style="width: 100%; max-height: 210px; height: auto; display: block;">
+              <ellipse cx="100" cy="158" rx="44" ry="6" fill="#efe6d6"></ellipse>
+              <path d="M100 158 C 97 134 103 116 100 96 S 99 74 100 56" fill="none" stroke="#e6dccb" stroke-width="6" stroke-linecap="round" pathLength="100"></path>
+              <path d="M100 158 C 97 134 103 116 100 96 S 99 74 100 56" fill="none" stroke="#7d6b4d" stroke-width="6" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="{{ trunkOffset }}" style="transition: stroke-dashoffset {{ arcEase }};"></path>
+              <sc-for list="{{ leaves }}" as="leaf" hint-placeholder-count="5">
+                <g>
+                  <line x1="100" y1="{{ leaf.by2 }}" x2="{{ leaf.bx2 }}" y2="{{ leaf.by2 }}" stroke="{{ leaf.branchColor }}" stroke-width="2.5" stroke-linecap="round" style="transition: stroke 500ms ease;"></line>
+                  <ellipse rx="17" ry="9.5" transform="{{ leaf.transform }}" fill="{{ leaf.fill }}" stroke="{{ leaf.stroke }}" stroke-width="1.5" opacity="{{ leaf.opacity }}" style="transition: transform {{ arcEase }}, fill 600ms ease, opacity 600ms ease;"></ellipse>
+                </g>
+              </sc-for>
+              <g transform="translate(100 56)">
+                <g style="animation: bob 3.6s ease-in-out infinite;">
+                  <circle r="11" fill="{{ headColor }}" opacity="0.22" style="animation: headPulse 2.8s ease-out infinite; transform-box: fill-box; transform-origin: center;"></circle>
+                  <circle r="5.5" fill="{{ headColor }}"></circle>
+                </g>
+              </g>
+            </svg>
+          </sc-if>
+          <sc-if value="{{ isArc }}" hint-placeholder-val="{{ true }}">
+            <div style="position: relative;">
+            <svg viewBox="0 0 200 152" style="width: 100%; max-height: 190px; height: auto; display: block; margin-bottom: -2px;">
+              <defs>
+                <linearGradient id="arcGrad" gradientUnits="userSpaceOnUse" x1="24" y1="104" x2="176" y2="104">
+                  <stop offset="0" stop-color="{{ accent }}"></stop>
+                  <stop offset="0.55" stop-color="#3f7d63"></stop>
+                  <stop offset="1" stop-color="#c08a3e"></stop>
+                </linearGradient>
+              </defs>
+              <path d="M28.6 130 A76 76 0 1 1 171.4 130" fill="none" stroke="#e6dccb" stroke-width="10" stroke-linecap="round"></path>
+              <path d="M28.6 130 A76 76 0 1 1 171.4 130" fill="none" stroke="url(#arcGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="291.8" stroke-dashoffset="{{ dashOffset }}" style="transition: stroke-dashoffset {{ arcEase }};"></path>
+              <sc-for list="{{ ticks }}" as="tick" hint-placeholder-count="4">
+                <circle cx="{{ tick.x }}" cy="{{ tick.y }}" r="2.4" fill="{{ tick.fill }}"></circle>
+              </sc-for>
+              <g style="transition: transform {{ arcEase }};" transform="{{ headTransform }}">
+                <circle r="12" fill="{{ headColor }}" opacity="0.26" style="animation: headPulse 2.4s ease-out infinite; transform-box: fill-box; transform-origin: center;"></circle>
+                <circle r="8" fill="#fffdf8"></circle>
+                <circle r="5" fill="{{ headColor }}"></circle>
+              </g>
+            </svg>
+            <span style="position: absolute; left: 50%; top: 66%; transform: translate(-50%, -50%); font-size: 2.3rem; font-weight: 400; line-height: 1; color: #123f3c; pointer-events: none;">{{ stageNumber }}</span>
+            </div>
+          </sc-if>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 0 4px;">
+            <span style="font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #6b6255;">{{ stageLabel }}</span>
+            <span style="font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; font-weight: 500; color: #6b6255;">{{ pctLabel }}</span>
+          </div>
+        </div>
+
+        <sc-if value="{{ showStages }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-direction: column; gap: 2px; padding: 4px 6px;">
+            <sc-for list="{{ stages }}" as="s" hint-placeholder-count="5">
+              <div style="display: flex; align-items: center; gap: 12px; padding: 9px 8px; border-radius: 12px; background: {{ s.rowBg }};">
+                <span style="width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; background: {{ s.dot }}; box-shadow: {{ s.dotRing }};"></span>
+                <span style="font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500; color: {{ s.color }};">{{ s.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showTrailList }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; border: 1px solid #e6dccb; border-radius: 20px; background: rgba(255,253,248,.7);">
+            <div style="font-family: 'IBM Plex Sans', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #655d51;">Your answers</div>
+            <sc-for list="{{ trail }}" as="t" hint-placeholder-count="2">
+              <div style="display: flex; flex-direction: column; gap: 2px;">
+                <span style="font-size: .84rem; color: #655d51; line-height: 1.3;">{{ t.question }}</span>
+                <span style="font-size: .98rem; color: #123f3c; line-height: 1.35;">{{ t.answer }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </aside>
+
+      <main style="flex: 1 1 520px; min-width: 0;">
+        <div style="position: relative; background: linear-gradient(180deg, #fffdf8 0%, #fff 62%); border: 1px solid #e0d4c1; border-radius: 28px; box-shadow: 0 26px 60px rgba(49,37,17,.12); overflow: hidden;">
+          <div style="height: 6px; background: linear-gradient(90deg, {{ accent }}, #c08a3e);"></div>
+          <div style="padding: 30px 32px 26px;" data-screen-label="Flow card">
+            <div style="animation: {{ contentAnim }};">
+              <div style="display: flex; align-items: flex-start; gap: 20px; justify-content: space-between;">
+                <div style="display: flex; flex-direction: column; gap: 10px; min-width: 0;">
+                  <span style="font-family: 'IBM Plex Sans', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #655d51;">{{ kindLabel }}</span>
+                  <h2 style="margin: 0; font-size: clamp(1.5rem, 2.8vw, 2.1rem); line-height: 1.1; font-weight: 500; letter-spacing: -.01em; color: #211e19; text-wrap: pretty;">{{ title }}</h2>
+                </div>
+                <img src="flow/static/flow/TSH.jpg" alt="GLF Teacher Training" style="height: 52px; width: auto; flex: 0 0 auto; border-radius: 8px;">
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 12px; margin: 22px 0 26px; max-width: 68ch;">
+                <sc-for list="{{ blocks }}" as="blk" hint-placeholder-count="3">
+                  <div style="display: flex; gap: 10px; align-items: baseline;">
+                    <sc-if value="{{ blk.bullet }}">
+                      <span style="flex: 0 0 auto; color: #c08a3e; font-size: 1.1rem; line-height: 1.5;">&#9679;</span>
+                    </sc-if>
+                    <sc-if value="{{ blk.heading }}">
+                      <div style="font-size: 1.16rem; font-weight: 600; color: #123f3c; line-height: 1.4; margin-top: 8px; overflow-wrap: anywhere;">
+                        <sc-for list="{{ blk.parts }}" as="part" hint-placeholder-count="1">
+                          <sc-if value="{{ part.href }}"><a href="{{ part.href }}" style="color: #144643; text-decoration: underline; text-decoration-color: rgba(20,70,67,.35); text-underline-offset: 3px;">{{ part.text }}</a></sc-if>
+                          <sc-if value="{{ part.plain }}">{{ part.text }}</sc-if>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ blk.body }}">
+                      <div style="font-size: 1.06rem; line-height: 1.62; color: #4b453c; overflow-wrap: anywhere; text-wrap: pretty;">
+                        <sc-for list="{{ blk.parts }}" as="part" hint-placeholder-count="1">
+                          <sc-if value="{{ part.href }}"><a href="{{ part.href }}" style="color: #144643; font-weight: 500; text-decoration: underline; text-decoration-color: rgba(20,70,67,.35); text-underline-offset: 3px;">{{ part.text }}</a></sc-if>
+                          <sc-if value="{{ part.plain }}">{{ part.text }}</sc-if>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="display: grid; gap: 10px;">
+                <sc-for list="{{ options }}" as="opt" hint-placeholder-count="2">
+                  <button type="button" onClick="{{ opt.go }}" style="display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; font: inherit; font-size: 1.05rem; color: #211e19; background: #fff; border: 1px solid #ded2be; border-radius: 16px; padding: 15px 18px; cursor: pointer; transition: transform 180ms cubic-bezier(.34,1.5,.64,1), border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;" style-hover="transform: translateY(-2px); border-color: #1f5f5b; background: #fffdf8; box-shadow: 0 14px 28px rgba(31,95,91,.14);" style-active="transform: translateY(1px) scale(.995);">
+                    <span style="flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%; border: 1px solid #ded2be; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; color: #6b6255;">{{ opt.key }}</span>
+                    <span style="flex: 1 1 auto; line-height: 1.4; text-wrap: pretty;">{{ opt.label }}</span>
+                    <span style="flex: 0 0 auto; color: #c08a3e; font-size: 1.05rem;">&#8594;</span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="margin-top: 28px; padding-top: 18px; border-top: 1px solid #ece3d4; display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: flex-end; justify-content: space-between;">
+              <div style="display: flex; flex-direction: column; gap: 4px; font-size: .95rem; color: #6b6255;">
+                <div>Web address: <a href="https://www.glftt.org" style="color: #144643; font-weight: 600; text-decoration: none;">www.glftt.org</a></div>
+                <div>Email address: <a href="mailto:info@glftt.org" style="color: #144643; font-weight: 600; text-decoration: none;">info@glftt.org</a></div>
+              </div>
+              <div style="display: flex; gap: 10px; align-items: center; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; font-weight: 500;">
+                <sc-if value="{{ canBack }}">
+                  <button type="button" onClick="{{ goBack }}" style="font: inherit; color: #6b6255; background: transparent; border: 1px solid #ded2be; border-radius: 999px; padding: 8px 16px; cursor: pointer; transition: border-color 160ms ease, color 160ms ease;" style-hover="border-color: #1f5f5b; color: #144643;">Back</button>
+                </sc-if>
+                <button type="button" onClick="{{ reset }}" style="font: inherit; color: #144643; background: transparent; border: 1px solid transparent; border-radius: 999px; padding: 8px 12px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px;" style-hover="color: #1f5f5b;">Start again</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:940},&quot;figure&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;arc&quot;,&quot;tree&quot;],&quot;default&quot;:&quot;arc&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Progress figure&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#1f5f5b&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#1f5f5b&quot;,&quot;#144643&quot;,&quot;#2f5d72&quot;,&quot;#4a5a3a&quot;]},&quot;motion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;playful&quot;,&quot;lively&quot;,&quot;subtle&quot;],&quot;default&quot;:&quot;playful&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showStages&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showTrail&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const FLOW = {
+  start: { kind: "question", p: 0.04, title: "Eligibility Checker 1",
+    text: "Did you have the right to work in the UK confirmed?",
+    options: [["Yes", "eligibility_2"], ["No", "overseas_candidate_statement"]] },
+
+  eligibility_2: { kind: "question", p: 0.12, title: "Eligibility Checker 2",
+    text: "Did you study for your school and further education qualifications in the UK?",
+    options: [["Yes", "domestic_eligibility_1"], ["No", "overseas_eligibility_3"]] },
+
+  overseas_candidate_statement: { kind: "statement", p: 0.12, title: "Overseas Candidate Statement",
+    text: `Candidates applying for Teacher Training with GLF Teacher Training must have the right to work in the UK confirmed BEFORE they apply for our course. We are afraid we cannot continue with your application until this is confirmed.
+
+Please note that we do not sponsor Tier 4 or Tier 2 visas.
+
+From 01/01/21, the new points-based immigration system will apply to trainee teachers from overseas, including EU, other EEA, and Swiss nationals.
+
+Following the UK's departure from the EU, it has also been confirmed that most EU, other EEA and Swiss nationals will not be eligible for support from Student Finance for courses starting from September 2021.
+
+For more information, contact DfE for overseas candidates and book a 1:1 support meeting:
+https://getintoteaching.education.gov.uk/
+
+We wish you well as you take your next steps into teacher training.`,
+    options: [["Start over", "start"]] },
+
+  overseas_eligibility_3: { kind: "question", p: 0.2, title: "Overseas Eligibility Checker 3",
+    text: `Do you have a recognised statement of comparability from ENIC/NARIC to show that you have at least a grade C or 4 in Maths and English for both Primary and Secondary teacher training routes, and a Grade C/4 in Science for those candidates who want to teach on a Primary route?
+
+(This is a compulsory expectation to train to teach in England.)`,
+    options: [["Yes", "overseas_eligibility_4"], ["No, I do not have a comparability statement yet", "overseas_3_no_statement"], ["No, I have a comparability statement but it does not show the required GCSE equivalence", "overseas_3_not_enough"]] },
+
+  overseas_3_no_statement: { kind: "statement", p: 0.2, title: "Next steps: ENIC Statement of Comparability",
+    text: `Suggested next step:
+• Contact ENIC with evidence of your overseas Secondary school qualifications to gain a Statement of Comparability (a certificate that shows how international qualifications compare to the UK education system). You will need this to progress.
+
+Please return to GLF Teacher Training once you have this, showing you have the equivalent of:
+• Grade C/4 in English and Maths (Primary & Secondary routes)
+• Grade C/4 in Science (Primary route only)
+
+There is a cost for this service which you will need to fund.
+ENIC link: https://www.enic.org.uk/individuals/statement-of-comparability
+
+Contact us for support with this process:
+info@glftt.org`,
+    options: [["Continue", "overseas_eligibility_4"], ["Start over", "start"]] },
+
+  overseas_3_not_enough: { kind: "statement", p: 0.2, title: "Next steps: Equivalency Tests (Overseas)",
+    text: `Suggested next step:
+• Apply for and pass an equivalency test in English and Maths (Primary & Secondary routes) and Science (Primary route only), or all three where required.
+
+GLF Teacher Training will accept equivalency tests from recognised providers taken within the last 3 years, but you will need to provide an original certificate.
+
+The DfE states that qualifications in key and functional skills at level 2 are not equivalent to GCSEs in terms of content.
+
+We can recommend the following equivalency test provider:
+• A Star Equivalency: https://astarequivalency.co.uk/
+
+If you need more support, you can email your ENIC comparability statement to our GLF ITT admin team for checking:
+info@glftt.org
+
+You may also find our weekly online information events helpful:
+https://www.glftt.org/19/events`,
+    options: [["Continue", "overseas_eligibility_4"], ["Start over", "start"]] },
+
+  overseas_eligibility_4: { kind: "question", p: 0.28, title: "Overseas Eligibility Checker 4",
+    text: `Do you have a recognised statement of comparability from ENIC/NARIC to show that you have an undergraduate degree equivalent to a UK bachelor’s degree with honours? Your comparability statement should show that your overseas degree is comparable to a degree at a 2:2 or higher.
+
+To meet the eligibility criteria, you need a first degree (comprising at least 300 HE credits of which at least 60 must be at level 6 of the QCF).`,
+    options: [["Yes", "overseas_eligibility_5"], ["No, I do not have a comparability statement (degree-level) yet", "overseas_4_no_statement"], ["No, I have a comparability statement but it does not show a degree equivalent to 2:2+ honours", "overseas_4_not_enough"]] },
+
+  overseas_4_no_statement: { kind: "statement", p: 0.28, title: "Next steps: ENIC Degree Comparability",
+    text: `Suggested next step:
+• Contact ENIC with evidence of your overseas degree-level qualifications to gain a Statement of Comparability.
+
+Please return to GLF Teacher Training once you have this, showing that you have an undergraduate degree equivalent to a UK bachelor’s degree with honours (comparable to a degree at a 2:2 or higher).
+
+ENIC link: https://www.enic.org.uk/individuals/statement-of-comparability
+
+Contact us for support with this process:
+info@glftt.org`,
+    options: [["Continue", "overseas_eligibility_5"], ["Start over", "start"]] },
+
+  overseas_4_not_enough: { kind: "statement", p: 0.28, title: "Next steps: Degree options (Overseas)",
+    text: `Suggested next step:
+• If you are unsure, send your comparability statement to our GLF ITT admin team for checking and further support:
+info@glftt.org
+
+You may then consider one of the following options:
+
+1) If you have a 3rd class or ordinary degree, GLF Teacher Training may accept this in occasional circumstances, but we will require additional information. Send your degree certificate and unit breakdown to:
+info@glftt.org
+
+2) If your degree is equivalent to a foundation degree (Level 5), you may be able to do a ‘top up’ one-year course to gain a BA Honours degree:
+https://educationforyou.co.uk/articles/37
+
+3) If your degree is not equivalent to a BA Honours or a Foundation degree:
+Explore degree-based routes into teaching through a Teacher Degree Apprenticeship, or work as a Teaching Assistant while completing a BA Honours Degree via distance learning:
+https://www.glftt.org/16/routes-into-teaching
+
+4) Study a UK-based degree from scratch (Education Studies or a specific Secondary subject). UCAS lists all undergraduate courses:
+https://www.ucas.com
+
+University guides you may find useful as a starting point:
+• Complete University Guide: https://www.thecompleteuniversityguide.co.uk/courses/search/undergraduate/education
+• Uni Compare: https://universitycompare.com/courses/degrees/undergraduate/education-studies
+• Educations: https://www.educations.com/
+
+For more support with the right option for you, contact:
+info@glftt.org`,
+    options: [["Finish", "closing_statement_1"], ["Start over", "start"]] },
+
+  overseas_eligibility_5: { kind: "question", p: 0.36, title: "Overseas Eligibility Check 5",
+    text: `It appears from the answers you have provided that you have:
+• the right to work in the UK
+• a statement of comparability from ENIC to show you have the equivalent of Grade C/4 in English and Maths, and Grade C/4 in Science (for primary candidates only)
+• an equivalent to a BA Honours Degree
+
+Would you like to continue learning more about the teacher training routes available to you?`,
+    options: [["Yes", "routes_into_teaching_1"], ["No", "closing_statement_2"]] },
+
+  domestic_eligibility_1: { kind: "question", p: 0.2, title: "Domestic Candidates Eligibility Checker 1",
+    text: "Do you have at least a grade C or 4 in Maths and English for both Primary and Secondary teacher training routes, and a Grade C/4 in Science for those candidates who want to teach on a Primary route?",
+    options: [["Yes", "domestic_eligibility_2"], ["No (missing GCSEs / equivalents)", "domestic_1_no_gcse"]] },
+
+  domestic_1_no_gcse: { kind: "statement", p: 0.2, title: "Next steps: Equivalency Tests (Domestic)",
+    text: `Suggested next step:
+• Apply for and pass an equivalency test in English and Maths (Primary & Secondary routes) and Science (Primary route only), or all three where required.
+
+GLF Teacher Training will accept equivalency tests from recognised providers taken within the last 3 years, but you will need to provide an original certificate.
+
+The DfE states that qualifications in key and functional skills at level 2 are not equivalent to GCSEs in terms of content.
+
+We can recommend the following equivalency test provider:
+• A Star Equivalency: https://astarequivalency.co.uk/
+
+Candidates are responsible for funding any equivalency tests.`,
+    options: [["Continue", "domestic_eligibility_2"], ["Start over", "start"]] },
+
+  domestic_eligibility_2: { kind: "question", p: 0.28, title: "Domestic Eligibility Checker 2",
+    text: `Do you have an undergraduate bachelor’s degree with honours - 2:2 or above?
+
+To meet the eligibility criteria, you need a first degree (comprising at least 300 HE credits of which at least 60 must be at level 6 of the QCF).`,
+    options: [["Yes", "routes_into_teaching_1"], ["No (not sure / not 2:2+ honours)", "domestic_2_no_degree"]] },
+
+  domestic_2_no_degree: { kind: "statement", p: 0.28, title: "Next steps: Degree options (Domestic)",
+    text: `Suggested next step:
+• If you are not sure, send your Degree certificate to our GLF ITT admin team for checking and further support:
+info@glftt.org
+
+You may then consider one of the following options:
+
+1) If you have a 3rd class or ordinary degree, GLF Teacher Training may accept this in occasional circumstances, but we will require additional information. Send your degree certificate and unit breakdown to:
+info@glftt.org
+
+2) If your degree is not BA Honours level but is a foundation degree (Level 5), you may be able to do a ‘top up’ one-year course to gain a BA Honours degree:
+https://educationforyou.co.uk/articles/37
+
+3) If your degree is not a BA Honours or a Foundation degree:
+Explore degree-based routes into teaching through a Teacher Degree Apprenticeship, or work as a Teaching Assistant while completing a BA Honours Degree via distance learning:
+https://www.glftt.org/16/routes-into-teaching
+
+4) Study a UK-based degree from scratch (Education Studies or a specific Secondary subject). UCAS lists all undergraduate degree courses:
+https://www.ucas.com
+
+University guides you may find useful as a starting point:
+• Complete University Guide: https://www.thecompleteuniversityguide.co.uk/courses/search/undergraduate/education
+• Uni Compare: https://universitycompare.com/courses/degrees/undergraduate/education-studies
+• Educations: https://www.educations.com/`,
+    options: [["Finish", "closing_statement_3"], ["Start over", "start"]] },
+
+  routes_into_teaching_1: { kind: "question", p: 0.44, title: "Routes into Teaching 1",
+    text: "Do you want to train while earning a salary?",
+    options: [["Yes", "routes_into_teaching_salary_info"], ["No", "routes_into_teaching_fee_info"]] },
+
+  routes_into_teaching_salary_info: { kind: "statement", p: 0.5, title: "Routes into Teaching",
+    text: "GLF Teacher Training has three employment-based routes into teaching. All routes have specific eligibility requirements, including at least one year of classroom teaching experience, and require a school willing to support/employ you on these routes.",
+    options: [["Continue", "employment_routes_1"], ["Back", "routes_into_teaching_1"]] },
+
+  routes_into_teaching_fee_info: { kind: "statement", p: 0.5, title: "Routes into Teaching",
+    text: "GLF Teacher Training offers fee-funded routes into teaching that do not require a school employment-based contract and allow trainees to take on teaching classes in manageable milestones.",
+    options: [["Continue", "fee_funded_routes_1"], ["Back", "routes_into_teaching_1"]] },
+
+  employment_routes_1: { kind: "question", p: 0.56, title: "Employment-Based Routes 1",
+    text: "Do you have classroom experience of at least one year of teaching students in the UK education system?",
+    options: [["Yes", "employment_routes_2"], ["No", "employment_routes_no_experience"]] },
+
+  employment_routes_no_experience: { kind: "statement", p: 0.56, title: "Employment-Based Routes",
+    text: "It is unlikely that schools will pay a salary and potentially training fees for candidates with no school experience. You would be more suited to one of our fee-funded routes.",
+    options: [["Continue", "fee_funded_routes_1"], ["Back", "employment_routes_1"]] },
+
+  employment_routes_2: { kind: "statement", p: 0.62, title: "Employment-Based Routes 2",
+    text: `We have outlined the details and eligibility for each of GLF’s employment-based routes below.
+
+Salaried Route
+The salaried route is an employment-based, full-time programme lasting one academic year, from September to July. Places are very limited and depend on an employing school’s needs and capacity, so they are often best suited to existing school employees or candidates with substantial classroom/teaching experience. Salaried trainees are employed by a school as unqualified teachers, receive a salary, and may take responsibility for teaching from the start, with their timetable determined by their experience and some unsupervised teaching of a class from day one. The employing school pays the QTS training fee and salary, so candidates do not pay tuition fees. Trainees can also study for a University of Brighton-validated PGCE with 60 Master’s-level credits alongside QTS; salaried trainees pay an additional £500 for this option. Salaried trainees are not eligible for other student finance, bursaries or scholarships. Candidates must secure the support of a school willing to employ them and meet the associated salary and training costs. Because opportunities are limited and competitive, candidates should contact GLF Teacher Training about availability and apply promptly when suitable vacancies are advertised.
+Live Postgraduate GLF vacancies are posted on ETeach under GLF Schools:
+https://www.eteach.com/careers/glfschools/
+
+Postgraduate Teacher Apprenticeship Route
+The Postgraduate Teacher Apprenticeship is a full-time, employment-based route available in primary and selected secondary subjects, depending on local vacancies and school capacity. Applicants would ordinarily have at least one year’s experience in an educational setting, supported by references, and must have the support of an employing school willing to employ them as an apprentice. The school employs apprentices, usually on the unqualified teachers’ pay scale, while the apprenticeship levy funds the training fee. Apprentices are based in school for four days each week and complete off-the-job training for the remainder of their time. Teaching responsibility increases with experience and progress. The programme leads to the Level 6 Teacher Apprenticeship and Qualified Teacher Status. Apprentices may also opt to complete a PGCE with 60 Master’s-level credits, validated by the University of Brighton, at an additional cost of £1,100 for 2027/28; apprenticeship funding cannot be used for this second qualification. Apprentices are not eligible for student finance, bursaries or scholarships. Eligibility for apprenticeship funding depends on current residency and right-to-work requirements, not specifically on holding a British passport. Opportunities are limited and are often offered to existing school employees, such as teaching assistants or cover supervisors, so candidates should contact GLF Teacher Training to discuss availability.
+Live Postgraduate GLF vacancies are posted on ETeach under GLF Schools:
+https://www.eteach.com/careers/glfschools/
+
+Assessment Only Route
+This route is for qualifying candidates with significant school experience of at least two years. Candidates can take the assessment route only if they already meet the standards for qualified teacher status (QTS) and do not need further training or time to gather the evidence required to pass QTS. Candidates must be ready to meet the Teachers’ Standards on assessment and have all required evidence. To meet the ITT entry criteria, candidates must currently be teaching in a school, have the support of the headteacher, and have worked in two or more school settings and across the two age phases they are being assessed in, such as KS1 and KS2, or aged 11–16.
+
+Candidates must show they can meet the Teachers’ Standards across two age phases, encompassing a range of assessments and teaching and learning approaches. Candidates’ experience in assessment, teaching, and planning must consider both physical and developmental ages. Candidates will need a reference from both headteachers confirming they have met all the Teachers’ Standards:
+https://www.gov.uk/government/publications/teachers-standards
+
+Candidates with only one school experience must demonstrate they have sufficient and appropriate experience in their chosen age phases and should undertake a second school experience for at least 6 weeks in a mainstream setting to support their evidence for the Teachers’ Standards.
+
+Candidates should teach a minimum of 50% and a maximum of 80% of an experienced teacher’s timetable for the duration of the assessment period.
+
+Applicants must have the opportunity to work with adults other than teachers and pupils across the ability range within the school, and in the school's pastoral setting. Secondary applicants’ timetables are expected to have 80% of their teaching commitment to their specialist subject.
+
+Candidates will undergo a series of assessments and provide a portfolio, and this programme takes up to 12 weeks. All candidates taking the assessment-only route will require an initial meeting to ensure they qualify and will need the employing school's support.
+
+The cost of the Assessment Only programme will need to be paid by the candidate or employing school. Contact info@glftt.org for accurate fee information.`,
+    options: [["Continue", "subject_phase_1"], ["Back to Routes", "routes_into_teaching_1"]] },
+
+  fee_funded_routes_1: { kind: "question", p: 0.56, title: "Fee-Funded Routes into Teaching",
+    text: `There are two fee-funded routes to choose from, and neither requires a school employment contract.
+
+Which would you like to know more about?`,
+    options: [["Full-time — one academic year, September to July", "fee_funded_full_time"], ["Flexible — four terms, September 2027 to December 2028", "fee_funded_flexible"]] },
+
+  fee_funded_full_time: { kind: "statement", p: 0.62, title: "Full-time Fee-Funded Route",
+    text: `The fee-funded route is a full-time, school-based programme for trainees who are not employed or salaried during training. This is a gentler route into teaching, perfect for those with no/less school or teaching experience. This is a popular route for graduates and those who want to take on teaching episodes alongside an experienced teacher, at their own pace.
+
+Fee-funded trainees are supernumerary and are not expected to teach independently from day one. A qualified teacher remains in the classroom to provide support and feedback while trainees progress from structured observation and co-teaching to planning and delivering lessons. Their teaching timetable increases gradually across the three terms, in line with their development and programme milestones, reaching up to 80% of a full teacher’s timetable by the end of the programme.
+
+For 2027/28, the fees are £9,550 for QTS only or £10,050 for QTS with the PGCE. Trainees can self-fund or, subject to eligibility, apply for a tuition fee loan and a maintenance loan through Student Finance England. Eligible secondary trainees may also receive a tax-free Department for Education bursary or scholarship; availability and amounts depend on the subject and current national funding arrangements. Bursaries and scholarships are paid directly to eligible trainees and can be taken alone or alongside a tuition fee loan, but a trainee cannot receive both a bursary and a scholarship.
+
+Further information about student finance, bursaries and scholarships:
+https://getintoteaching.education.gov.uk/landing/how-to-fund-your-teacher-training
+
+The full-time programme runs for one academic year, from September to July, and leads to Qualified Teacher Status. Trainees may choose QTS only or study for a University of Brighton-validated PGCE with 60 Master’s-level credits alongside their QTS. The PGCE is integrated throughout the training year and is delivered jointly by Inspiring Future Teachers and University of Brighton tutors.`,
+    options: [["Continue", "subject_phase_1"], ["Back", "fee_funded_routes_1"]] },
+
+  fee_funded_flexible: { kind: "statement", p: 0.62, title: "Flexible Fee-Funded Route",
+    text: `GLF Teacher Training’s Flexible Fee-Funded Route is a full-time, school-based programme for candidates who would benefit from completing their training over a longer period. Launching in September 2027, it runs over four school terms and ends in December 2028. The route leads to Qualified Teacher Status only and does not include a PGCE option.
+
+For 2027/28, the tuition fee is £10,050. Trainees complete a second school placement during the second half of the summer term and must attend all four Intensive Training and Practice weeks in full. Availability is limited, so candidates should contact GLF Teacher Training to confirm whether the route is available in their preferred phase, subject and location.
+
+The flexible fee-funded route is a school-based training programme for trainees who are not employed or salaried during training. This is a gentler route into teaching, perfect for those with no/less school or teaching experience. This is a popular route for graduates and those who want to take on teaching episodes alongside an experienced teacher, at their own pace.
+
+Flexible fee-funded trainees are supernumerary and are not expected to teach independently from day one. A qualified teacher remains in the classroom to provide support and feedback while trainees progress from structured observation and co-teaching to planning and delivering lessons. Their teaching timetable increases gradually, in line with their development and programme milestones, reaching up to 80% of a full teacher’s timetable by the end of the programme in term 4.
+
+Trainees can self-fund or, subject to eligibility, apply for a tuition fee loan and a maintenance loan through Student Finance England. Eligible secondary trainees may also receive a tax-free Department for Education bursary or scholarship; availability and amounts depend on the subject and current national funding arrangements. Bursaries and scholarships are paid directly to eligible trainees and can be taken alone or alongside a tuition fee loan, but a trainee cannot receive both a bursary and a scholarship.
+
+Further information about student finance, bursaries and scholarships:
+https://getintoteaching.education.gov.uk/landing/how-to-fund-your-teacher-training`,
+    options: [["Continue", "subject_phase_1"], ["Back", "fee_funded_routes_1"]] },
+
+  subject_phase_1: { kind: "question", p: 0.7, title: "Subject & Phase 1",
+    text: "Do you want to teach Primary or Secondary?",
+    options: [["Primary", "subject_phase_2"], ["Secondary", "subject_phase_3"]] },
+
+  subject_phase_2: { kind: "question", p: 0.76, title: "Subject & Phase 2",
+    text: "Do you want to teach Primary at ages 3–7 or 7–11?",
+    options: [["Primary ages 3–7", "training_locations"], ["Primary ages 7–11", "training_locations"]] },
+
+  subject_phase_3: { kind: "question", p: 0.76, title: "Subject & Phase 3",
+    text: `Do you want to teach in Secondary Shortage Subjects or other Secondary subjects?
+
+Shortage Subjects are those with a bursary attached. For 26–27, this is Biology, Chemistry, Computing, Design and Technology, Geography, Languages, Maths and Physics. Bursary amounts can be found here:
+https://getintoteaching.education.gov.uk/landing/how-to-fund-your-teacher-training
+Bursary amounts change every year, so please check for updates.
+
+For fee-funded routes, the bursary is paid directly to the candidate; for employment-based routes, it is paid to the employing school to offset salary costs.
+
+Non-Shortage Secondary Subjects are any other subjects and do not come with any bursary. Candidates can still apply for a Student and Maintenance loan to cover training costs.`,
+    options: [["Secondary Shortage Subjects", "training_locations"], ["Secondary Non-Shortage Subjects", "training_locations"]] },
+
+  training_locations: { kind: "question", p: 0.84, title: "Training Locations",
+    text: `We offer placement schools across the southeast from Surrey, Croydon, Oxfordshire, Reading, West Sussex, Wokingham and Hampshire to meet candidates' needs. You will spend 80% of your time at your placement school and 20% training at one of our training venues, learning from our experts.
+
+Would you prefer our Oxford/Reading training venue or our Banstead in Surrey venue?`,
+    options: [["Oxford/Reading", "next_steps_1"], ["Banstead, Surrey", "next_steps_1"]] },
+
+  next_steps_1: { kind: "question", p: 0.9, title: "Next Steps 1",
+    text: `We offer the chance for candidates to visit one of our GLF Teacher Training Schools in this region for a day-long School Experience visit. This can help you decide on the subject/phase that is right for you and help you meet the teachers and children you would be working with.
+
+Would you like us to set this up for you?`,
+    options: [["I would like to attend a School Experience Visit", "next_steps_2"], ["Not at this stage, but I would like to be sent more information", "next_steps_3"]] },
+
+  next_steps_2: { kind: "statement", p: 0.93, title: "Next Steps 2",
+    text: `Please complete our enquiry form, noting where you would like school experience:
+https://forms.office.com/pages/responsepage.aspx?id=A0fOQITwQUy0ICoaMUBRJ6y1g0Xjm71LjaZx0sst-dFUQTZQUFhXU1ZFWUk5TVhXV05BQUNXV0c0QiQlQCN0PWcu&route=shorturl
+
+Alternatively, you can book onto GLF Teacher Training’s School Experience by emailing us and we can set this up for you:
+info@glftt.org`,
+    options: [["Continue", "next_steps_3"]] },
+
+  next_steps_3: { kind: "question", p: 0.95, title: "Next Steps 3",
+    text: `We offer a range of engagement events to promote what GLF Teacher Training has to offer, including a weekly online Learn More About Getting Into Teaching event and regional face-to-face recruitment events in our schools.
+
+Would you like to attend?`,
+    options: [["I would like to attend an event", "events"], ["I do not want to attend an event, but I would like to be sent more information", "contact_us"]] },
+
+  events: { kind: "statement", p: 0.98, title: "GLF Teacher Training Events",
+    text: `Please visit our events page and sign up for one of our events:
+https://www.glftt.org/19/events`,
+    options: [["Finish", "closing_statement_4"], ["Back", "next_steps_3"]] },
+
+  contact_us: { kind: "statement", p: 0.98, title: "Contact GLF Teacher Training",
+    text: `Contact us at GLF Teacher Training for us to send you more information.
+
+Please email us at: info@glftt.org`,
+    options: [["Finish", "closing_statement_4"], ["Back", "next_steps_3"]] },
+
+  closing_statement_1: { kind: "statement", p: 1, title: "Closing Statement 1",
+    text: `Thanks for your interest in teacher training with GLF Teacher Training, and we wish you luck with your next steps. We look forward to hearing from you once you have the necessary documentation/qualifications.
+
+Once you have your degree, please come back to GLF Teacher Training, and we can support you with the next steps to gain QTS.
+
+Contact us for support:
+info@glftt.org`,
+    options: [["Start over", "start"]] },
+
+  closing_statement_2: { kind: "statement", p: 1, title: "Closing Statement 2",
+    text: `Thanks for your interest in teacher training with GLF Teacher Training. We look forward to hearing from you once you are ready to learn more or apply for a teacher training route.
+
+You may find coming to one of our weekly online information events useful to find out more:
+https://www.glftt.org/19/events
+
+You can also contact us on our enquiry form to find out more:
+https://forms.office.com/pages/responsepage.aspx?id=A0fOQITwQUy0ICoaMUBRJ6y1g0Xjm71LjaZx0sst-dFUQTZQUFhXU1ZFWUk5TVhXV05BQUNXV0c0QiQlQCN0PWcu&route=shorturl`,
+    options: [["Start over", "start"]] },
+
+  closing_statement_3: { kind: "statement", p: 1, title: "Closing Statement 3",
+    text: `Thanks for your interest in teacher training with GLF Teacher Training, and we wish you luck with your next steps. We look forward to hearing from you once you have the necessary documentation/qualifications.
+
+Once you have your degree, please come back to GLF Teacher Training, and we would be happy to support you to gain QTS at this point.
+
+Contact us for support with this process:
+info@glftt.org`,
+    options: [["Start over", "start"]] },
+
+  closing_statement_4: { kind: "statement", p: 1, title: "Closing Statement 4",
+    text: `Thanks for your interest in teacher training with GLF Teacher Training. GLF Schools, as a Trust, is passionate about training the next generation of teachers for our schools.
+
+Please visit GLF’s Teacher Training Website:
+https://www.glftt.org
+
+Or fill in our enquiry form and we will be in touch:
+https://forms.office.com/pages/responsepage.aspx?id=A0fOQITwQUy0ICoaMUBRJ6y1g0Xjm71LjaZx0sst-dFUQTZQUFhXU1ZFWUk5TVhXV05BQUNXV0c0QiQlQCN0PWcu&route=shorturl
+
+GLF Teacher Training has a lot to offer:
+• Whether you are considering joining as a graduate straight from university, moving into teaching from a school support role, or joining us as a career changer, there is a training route at GLF for you.
+• Teaching is a career with financial support to train, a competitive starting salary, and the ability to progress financially as you become a more experienced teacher or move into leadership roles. It also offers a generous pension.
+• Training to teach within one of GLF’s 43 Trust Schools offers excellent career progression opportunities within the same Trust. GLF offers a range of career pathways, from pastoral support and teaching and learning to leadership.
+• Teaching allows you time in the school holidays to make time for your family or other commitments.
+• Teaching is a rewarding career like no other; you always know that each day you go to work, you make a difference. No two days are the same; you are guaranteed to work as part of a team you can laugh and learn with.
+• You can make a difference to the lives of young people as you see them learn, grow, and flourish.
+• Your continued professional development matters to us. Training to teach with GLF SCITT is like joining our family of partner schools with a Department for Education-accredited Teaching School Hub, proving that we are experts in supporting you throughout your teacher training, your first teaching position as an early career teacher, and beyond.
+
+Thanks for your interest, and we look forward to hearing from you.
+
+Every Teacher Shapes a Life.`,
+    options: [["Start over", "start"]] },
+};
+
+const STAGES = ["Eligibility", "Training route", "Subject & phase", "Location", "Next steps"];
+const ARC_LEN = 291.8, R = 76, CX = 100, CY = 104, A0 = 200, SWEEP = 220;
+const TREE_ROWS = [{ y: 140, s: -1 }, { y: 120, s: 1 }, { y: 100, s: -1 }, { y: 80, s: 1 }, { y: 62, s: -1 }];
+const STAGE_START = [0, 0.4, 0.68, 0.8, 0.86];
+const MOTION = {
+  playful: { arc: "980ms cubic-bezier(.34,1.56,.64,1)", anim: "520ms cubic-bezier(.22,1.3,.36,1) both" },
+  lively: { arc: "720ms cubic-bezier(.22,.9,.24,1)", anim: "380ms cubic-bezier(.22,.9,.24,1) both" },
+  subtle: { arc: "460ms ease", anim: "240ms ease both" },
+};
+
+function pointAt(p) {
+  const rad = (A0 - SWEEP * p) * Math.PI / 180;
+  return { x: CX + R * Math.cos(rad), y: CY - R * Math.sin(rad) };
+}
+
+function splitParts(txt) {
+  const re = /(https?:\/\/[^\s]+|[\w.+-]+@[\w-]+\.[\w.]+)/g;
+  const parts = [];
+  let last = 0, m;
+  while ((m = re.exec(txt)) !== null) {
+    if (m.index > last) parts.push({ text: txt.slice(last, m.index), plain: true, href: "" });
+    let token = m[0];
+    let tail = "";
+    while (/[.,;:)]$/.test(token) && !token.endsWith("shorturl")) { tail = token.slice(-1) + tail; token = token.slice(0, -1); }
+    parts.push({ text: token, plain: false, href: token.includes("@") && !token.startsWith("http") ? "mailto:" + token : token });
+    if (tail) parts.push({ text: tail, plain: true, href: "" });
+    last = m.index + m[0].length;
+  }
+  if (last < txt.length) parts.push({ text: txt.slice(last), plain: true, href: "" });
+  return parts.length ? parts : [{ text: txt, plain: true, href: "" }];
+}
+
+function parseText(text) {
+  return String(text || "").split("\n").map(l => l.trim()).filter(Boolean).map(line => {
+    let bullet = false, txt = line;
+    if (/^•\s*/.test(line)) { bullet = true; txt = line.replace(/^•\s*/, ""); }
+    const numbered = /^\d\)\s/.test(txt);
+    const heading = !bullet && !numbered && txt.length <= 46 && !/[.:,;!?)]$/.test(txt) && !/^https?:/i.test(txt) && !txt.includes("@");
+    return { bullet, heading, body: !heading, parts: splitParts(txt) };
+  });
+}
+
+class Component extends DCLogic {
+  state = { id: "start", history: [], trail: [], step: 0 };
+
+  go(nextId, label) {
+    const cur = FLOW[this.state.id];
+    this.setState(s => ({
+      id: FLOW[nextId] ? nextId : "start",
+      history: nextId === "start" ? [] : s.history.concat([s.id]),
+      trail: nextId === "start" ? [] : (cur && cur.kind === "question" ? s.trail.concat([{ question: cur.title, answer: label }]) : s.trail),
+      step: s.step + 1,
+    }));
+  }
+
+  back() {
+    this.setState(s => {
+      if (!s.history.length) return null;
+      const history = s.history.slice(0, -1);
+      const id = s.history[s.history.length - 1];
+      const trail = FLOW[id] && FLOW[id].kind === "question" ? s.trail.slice(0, -1) : s.trail;
+      return { id, history, trail, step: s.step + 1 };
+    });
+  }
+
+  renderVals() {
+    const accent = this.props.accent ?? "#1f5f5b";
+    const motion = MOTION[this.props.motion ?? "playful"] ?? MOTION.playful;
+    const node = FLOW[this.state.id] || FLOW.start;
+    const p = node.p ?? 0;
+    const stageIndex = p < 0.4 ? 0 : p < 0.68 ? 1 : p < 0.8 ? 2 : p < 0.86 ? 3 : 4;
+    const head = pointAt(p);
+    const trail = this.state.trail.slice(-6).reverse();
+
+    const figure = this.props.progressFigure ?? "arc";
+    const gold = "#c08a3e";
+
+    return {
+      accent,
+      arcEase: motion.arc,
+      isArc: figure === "arc",
+      isTree: figure === "tree",
+      trunkOffset: (100 - (18 + 82 * p)).toFixed(1),
+      budTransform: "translate(100 " + (58 - 0 * p).toFixed(0) + ")",
+      leaves: TREE_ROWS.map((row, i) => {
+        const shown = p >= STAGE_START[i];
+        const done = i < stageIndex;
+        const current = i === stageIndex;
+        return {
+          bx2: 100 + row.s * 24, by2: row.y - 10,
+          branchColor: shown ? "#9a8a6c" : "#e2d8c6",
+          transform: "translate(" + (100 + row.s * 38) + " " + (row.y - 17) + ") rotate(" + row.s * -20 + ") scale(" + (shown ? 1 : 0.2) + ")",
+          fill: done ? gold : current ? accent : "#f2ece1",
+          stroke: shown ? "rgba(255,253,248,.85)" : "#ddd3c0",
+          opacity: shown ? 1 : 0.45,
+        };
+      }),
+      contentAnim: (this.state.step % 2 ? "swoopB " : "swoopA ") + motion.anim,
+      dashOffset: ARC_LEN * (1 - p),
+      headTransform: "translate(" + head.x.toFixed(2) + " " + head.y.toFixed(2) + ")",
+      headColor: "oklch(" + (0.42 + 0.16 * p).toFixed(3) + " " + (0.07 + 0.05 * p).toFixed(3) + " " + (178 - 100 * p).toFixed(1) + ")",
+      ticks: [0.2, 0.4, 0.6, 0.8].map(t => {
+        const pt = pointAt(t);
+        return { x: pt.x.toFixed(2), y: pt.y.toFixed(2), fill: p >= t ? "#fffdf8" : "#cfc2ad" };
+      }),
+      stageNumber: "0" + (stageIndex + 1),
+      stageLabel: STAGES[stageIndex],
+      pctLabel: Math.round(p * 100) + "% complete",
+      stages: STAGES.map((label, i) => ({
+        label,
+        dot: i < stageIndex ? "#c08a3e" : i === stageIndex ? accent : "#d9ccb8",
+        dotRing: i === stageIndex ? "0 0 0 4px rgba(31,95,91,.16)" : "none",
+        color: i === stageIndex ? "#123f3c" : i < stageIndex ? "#5b5347" : "#7d7466",
+        rowBg: i === stageIndex ? "rgba(255,253,248,.9)" : "transparent",
+      })),
+      showStages: (this.props.showStages ?? true) === true,
+      showTrailList: (this.props.showTrail ?? true) === true && trail.length > 0,
+      trail,
+      title: node.title,
+      kindLabel: node.kind === "question" ? "Question" : "Information",
+      blocks: parseText(node.text),
+      options: node.options.map((o, i) => ({
+        key: String.fromCharCode(65 + i),
+        label: o[0],
+        go: () => this.go(o[1], o[0]),
+      })),
+      canBack: this.state.history.length > 0,
+      goBack: () => this.back(),
+      reset: () => this.setState({ id: "start", history: [], trail: [], step: this.state.step + 1 }),
+    };
+  }
+}
+</script>
+</body>
+</html>

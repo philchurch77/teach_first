@@ -1,0 +1,29 @@
+{% comment %}
+The answer trail: up to six answered questions, newest first.
+
+The view has already reversed and truncated the list. A plain <ul> rather than
+an <ol> on purpose -- these are ordered by recency, not rank, and numbering them
+would read as a step count that runs backwards.
+
+Nothing here is stored beyond the session. See the data classification section
+of CLAUDE.md.
+{% endcomment %}
+{% if trail %}
+    <section class="trail" aria-label="Your answers">
+        {% comment %}
+        A <p>, not an <h2>. The page has one <h1> and the question title is the
+        <h2> a visitor came for; giving the rail's answer history the same
+        heading rank presents it as equal in importance when navigating by
+        heading. The section's aria-label already names this region.
+        {% endcomment %}
+        <p class="trail-heading">Your answers</p>
+        <ul class="trail-list">
+            {% for entry in trail %}
+                <li>
+                    <div class="trail-question">{{ entry.question }}</div>
+                    <div class="trail-answer">{{ entry.answer }}</div>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endif %}

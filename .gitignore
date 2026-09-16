@@ -22,3 +22,8 @@ media/
 .DS_Store
 Thumbs.db
 .vscode/
+
+# Local environment (never commit a real secret key)
+.env
+.env.*
+!.env.example

@@ -1,0 +1,18 @@
+{% comment %}
+The five stages, one row each. State comes from the view as past/current/future
+and the stylesheet supplies the colour, so no hex values appear in the markup.
+{% endcomment %}
+<ol class="stage-list">
+    {% for stage in stages %}
+        <li class="stage-row is-{{ stage.state }}"{% if stage.state == "current" %} aria-current="step"{% endif %}>
+            <span class="stage-dot" aria-hidden="true"></span>
+            <span class="stage-label">
+                {{ stage.label }}{% comment %}
+                Past and future stages differ only by a dot colour and two close
+                greys, which is nothing at all to a screen reader. aria-current
+                marks the current row; these name the other two states.
+                {% endcomment %}{% if stage.state == "past" %}<span class="sr-only"> — completed</span>{% elif stage.state == "future" %}<span class="sr-only"> — not yet reached</span>{% endif %}
+            </span>
+        </li>
+    {% endfor %}
+</ol>

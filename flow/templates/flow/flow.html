@@ -1,236 +1,208 @@
-<!DOCTYPE html>
-{% load static %}
+{% load static %}<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Teaching Eligibility Checker</title>
-    <style>
-        :root {
-            color-scheme: light;
-            --bg: #f4efe6;
-            --panel: #fffaf2;
-            --panel-strong: #fff;
-            --text: #1c1a17;
-            --muted: #655d51;
-            --accent: #1f5f5b;
-            --accent-strong: #144643;
-            --border: #d9ccb8;
-            --shadow: 0 20px 50px rgba(49, 37, 17, 0.12);
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: Georgia, "Times New Roman", serif;
-            background:
-                radial-gradient(circle at top left, rgba(31, 95, 91, 0.16), transparent 30%),
-                radial-gradient(circle at bottom right, rgba(180, 133, 67, 0.16), transparent 25%),
-                linear-gradient(180deg, #f7f3ec 0%, var(--bg) 100%);
-            color: var(--text);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 30px 24px 24px;
-        }
-
-        .card {
-            width: min(980px, 100%);
-            background: linear-gradient(180deg, var(--panel) 0%, var(--panel-strong) 100%);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            padding: 28px;
-            position: relative;
-        }
-
-        .card-logo {
-            position: absolute;
-            top: 18px;
-            right: 18px;
-            height: 52px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .eyebrow {
-            margin: 0 0 12px;
-            color: var(--accent);
-            font-size: 0.9rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .page-title {
-            width: min(980px, 100%);
-            margin: 0 0 14px;
-            color: var(--accent-strong);
-            font-size: clamp(2.4rem, 5.2vw, 3.5rem);
-            font-weight: 900;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
-            text-align: center;
-        }
-
-        .question-title {
-            margin: 0;
-            font-size: clamp(2rem, 5vw, 3.2rem);
-            line-height: 1;
-        }
-
-        .copy {
-            margin: 20px 0 28px;
-            color: var(--muted);
-            font-size: 1.08rem;
-            line-height: 1.7;
-            white-space: normal;
-            overflow-wrap: anywhere;
-        }
-
-        .options {
-            display: grid;
-            gap: 12px;
-        }
-
-        .option-form {
-            margin: 0;
-        }
-
-        .option-button {
-            width: 100%;
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            background: #fff;
-            color: var(--text);
-            cursor: pointer;
-            padding: 16px 18px;
-            text-align: left;
-            font: inherit;
-            font-size: 1rem;
-            transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
-        }
-
-        .option-button:hover,
-        .option-button:focus-visible {
-            transform: translateY(-1px);
-            border-color: var(--accent);
-            box-shadow: 0 14px 30px rgba(31, 95, 91, 0.12);
-            outline: none;
-        }
-
-        .footer {
-            margin-top: 24px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-end;
-            column-gap: 16px;
-            row-gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .footer-links {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            align-items: flex-start;
-            flex: 1 1 100%;
-            min-width: 0;
-        }
-
-        .footer-label {
-            color: var(--muted);
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-
-        .footer-link {
-            color: var(--accent-strong);
-            text-decoration: none;
-            font-weight: 700;
-            overflow-wrap: anywhere;
-        }
-
-        .footer-link:hover,
-        .footer-link:focus-visible {
-            text-decoration: underline;
-            outline: none;
-        }
-
-        .node-type {
-            color: var(--muted);
-            font-size: 0.95rem;
-        }
-
-        .reset-link {
-            color: var(--accent-strong);
-            text-decoration: none;
-            font-weight: 700;
-            margin-left: auto;
-        }
-
-        .reset-link:hover,
-        .reset-link:focus-visible {
-            text-decoration: underline;
-            outline: none;
-        }
-
-        @media (max-width: 640px) {
-            body {
-                padding: 22px 16px 16px;
-            }
-
-            .card {
-                padding: 22px;
-                border-radius: 20px;
-            }
-
-            .copy {
-                font-size: 1rem;
-            }
-
-            .card-logo {
-                height: 44px;
-                top: 14px;
-                right: 14px;
-            }
-        }
-    </style>
+    {% comment %}
+    One title per node. All 36 screens are served at "/", so a single fixed
+    title made every browser-history entry identical and gave a screen-reader
+    user re-reading the title no sense of where they were.
+    {% endcomment %}
+    <title>{{ node.title }} &mdash; Teaching Eligibility Checker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+    <link rel="stylesheet" href="{% static 'flow/flow.css' %}">
 </head>
 <body>
-    <h1 class="page-title">Are you eligible for teacher training?</h1>
-    <main class="card">
-        <img class="card-logo" src="{% static 'flow/TSH.jpg' %}" alt="TSH logo">
-        <h2 class="question-title">{{ node.title }}</h2>
-        <div class="copy">{{ node.text|urlize|linebreaksbr }}</div>
+<div class="page">
+    <div class="shell">
+        <header class="masthead">
+            <p class="eyebrow">GLF Teacher Training</p>
+            <h1 class="masthead-title">Are you eligible for teacher training?</h1>
+            <p class="masthead-sub">
+                Answer a few questions and we will point you to the route, the
+                paperwork and the people who can help.
+            </p>
+        </header>
 
-        <section class="options" aria-label="Available answers">
-            {% for option in node.options %}
-                <form method="post" class="option-form">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ option.next }}">
-                    <button type="submit" class="option-button">{{ option.label }}</button>
-                </form>
-            {% endfor %}
-        </section>
+        <div class="columns">
+            <aside class="rail" aria-label="Your progress">
+                <div class="figure-card">
+                    {% include "flow/_progress_figure.html" %}
+                </div>
+                {% include "flow/_stage_list.html" %}
+                {% include "flow/_answer_trail.html" %}
+            </aside>
 
-        <footer class="footer">
-            <div class="footer-links" aria-label="Contact links">
-                <div class="footer-label">
-                    Web address: <a class="footer-link" href="https://www.glftt.org">www.glftt.org</a>
+            <main class="main">
+                <div class="card">
+                    <div class="card-strip" aria-hidden="true"></div>
+                    <div class="card-inner">
+                        {% comment %}
+                        Everything from the eyebrow to the options animates in on
+                        each node change. The footer sits outside so the contact
+                        details and the Back control do not move under the cursor.
+                        {% endcomment %}
+                        <div class="card-content">
+                            {% if timed_out %}
+                                <p class="notice" role="status">
+                                    This page had been open a while, so we
+                                    cleared your earlier answers. Your place in
+                                    the questions is fine &mdash; only the
+                                    &ldquo;Your answers&rdquo; list and the Back
+                                    button were reset.
+                                </p>
+                            {% endif %}
+                            <div class="card-head">
+                                <div class="card-head-text">
+                                    <p class="eyebrow card-kind">
+                                        {% if node.type == "question" %}Question{% else %}Information{% endif %}
+                                    </p>
+                                    <h2 class="card-title">{{ node.title }}</h2>
+                                </div>
+                                <img class="card-logo" src="{% static 'flow/TSH.jpg' %}"
+                                     alt="GLF Teacher Training">
+                            </div>
+
+                            {% comment %}
+                            node.text is plain text. The view has already split it
+                            into headings, bullets and paragraphs; urlize handles
+                            the links and emails within each one.
+                            {% endcomment %}
+                            <div class="node-body">
+                                {% for block in blocks %}
+                                    {% if block.kind == "heading" %}
+                                        <h3 class="node-subhead">{{ block.text|urlize }}</h3>
+                                    {% elif block.kind == "numbered" %}
+                                        <p class="node-numbered">
+                                            <span class="node-number">{{ block.marker }}</span>{{ block.text|urlize }}
+                                        </p>
+                                    {% elif block.kind == "bullets" %}
+                                        <ul class="node-bullets">
+                                            {% for item in block.items %}
+                                                <li class="node-bullet"><span>{{ item|urlize }}</span></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p class="node-text">{{ block.text|urlize }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+                            <section class="options" aria-label="Available answers">
+                                {% for option in options %}
+                                    <form method="post" class="option-form">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="next" value="{{ option.next }}">
+                                        {% comment %}
+                                        choice is the option index and from is the
+                                        node this form was rendered against. The
+                                        first keeps the answer trail truthful where
+                                        two options share a target; the second stops
+                                        a stale tab recording an answer against the
+                                        wrong question. See _chosen_label in views.
+                                        {% endcomment %}
+                                        <input type="hidden" name="choice" value="{{ option.index }}">
+                                        <input type="hidden" name="from" value="{{ node_id }}">
+                                        <button type="submit" class="option-button">
+                                            <span class="option-key" aria-hidden="true">{{ option.key }}</span>
+                                            <span class="option-label">{{ option.label }}</span>
+                                            <span class="option-arrow" aria-hidden="true">{% if option.goes_back %}&larr;{% else %}&rarr;{% endif %}</span>
+                                        </button>
+                                    </form>
+                                {% endfor %}
+                            </section>
+                        </div>
+
+                        <footer class="card-footer">
+                            <div class="footer-links">
+                                <div class="footer-label">
+                                    Web address:
+                                    <a class="footer-link" href="https://www.glftt.org">www.glftt.org</a>
+                                </div>
+                                <div class="footer-label">
+                                    Email address:
+                                    <a class="footer-link" href="mailto:info@glftt.org">info@glftt.org</a>
+                                </div>
+                            </div>
+
+                            <div class="footer-actions">
+                                {% if can_back %}
+                                    <form method="post" class="back-form">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="back" value="1">
+                                        <button type="submit" class="back-button">&larr; Back</button>
+                                    </form>
+                                {% endif %}
+                                {% comment %}
+                                A form, not a link. This discards the visitor's
+                                answers and their Back history, and a GET that
+                                destroys state can be fired without a decision:
+                                link prefetch, a chat or social link preview, or
+                                a browser reopening tabs on start-up.
+                                {% endcomment %}
+                                <form method="post" class="reset-form">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="reset" value="1">
+                                    <button type="submit" class="reset-link">Start again</button>
+                                </form>
+                            </div>
+                        </footer>
+                    </div>
                 </div>
-                <div class="footer-label">
-                    Email address: <a class="footer-link" href="mailto:info@glftt.org">info@glftt.org</a>
-                </div>
-            </div>
-            <a href="/?node=start" class="reset-link">Start again</a>
-        </footer>
-    </main>
+            </main>
+        </div>
+    </div>
+</div>
+
+{% comment %}
+Animate the ring from the value the visitor last saw to the value already in the
+markup. The server renders the target, so if this script never runs the figure is
+still correct -- it just appears without movement.
+{% endcomment %}
+<script>
+    (function () {
+        var svg = document.querySelector(".ring");
+        if (!svg || !window.matchMedia) { return; }
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { return; }
+
+        var path = svg.querySelector(".ring-progress");
+        var head = svg.querySelector(".ring-head");
+        var ticks = svg.querySelectorAll(".ring-tick");
+        if (!path || !head) { return; }
+
+        function paint(offset, transform, hex, oklch, key) {
+            path.setAttribute("stroke-dashoffset", offset);
+            head.setAttribute("transform", transform);
+            svg.style.setProperty("--head-hex", hex);
+            svg.style.setProperty("--head-oklch", oklch);
+            for (var i = 0; i < ticks.length; i++) {
+                ticks[i].classList.toggle("is-reached", ticks[i].dataset[key] === "1");
+            }
+        }
+
+        // Snap back to the previous node's values with transitions suppressed,
+        // so the jump itself is not animated...
+        svg.classList.add("ring-instant");
+        paint(
+            path.dataset.prevOffset, head.dataset.prevTransform,
+            svg.dataset.prevHex, svg.dataset.prevOklch, "prevReached"
+        );
+
+        // ...then release to the rendered target on the next frame and let the
+        // CSS transitions carry it there.
+        requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+                svg.classList.remove("ring-instant");
+                paint(
+                    path.dataset.offset, head.dataset.transform,
+                    svg.dataset.hex, svg.dataset.oklch, "reached"
+                );
+            });
+        });
+    })();
+</script>
 </body>
 </html>

@@ -1,0 +1,823 @@
+/* GLF Teacher Training eligibility checker.
+ *
+ * Values here come from design_handoff_eligibility_checker/README.md, which is
+ * high fidelity: colours, type, spacing, radii, shadows and motion timings are
+ * final. The SVG geometry that pairs with this file lives in flow/progress.py
+ * and templates/flow/_progress_figure.html.
+ */
+
+:root {
+    color-scheme: light;
+
+    /* Surfaces */
+    --bg: #f4efe6;
+    --panel: #fffdf8;
+    --panel-strong: #fff;
+
+    /* Borders, light to dark */
+    --border-soft: #ece3d4;
+    --border-trail: #e6dccb;
+    --border: #e0d4c1;
+    --border-strong: #ded2be;
+
+    /* Ink */
+    --ink: #211e19;
+    --body: #4b453c;
+    --muted: #6b6255;
+    --muted-alt: #655d51;
+    --past: #5b5347;
+    /* 4.55:1 on the darkest page-gradient stop (#f2ece1). The stage rows are
+     * transparent, so future labels sit on the page, not on a panel -- the
+     * handoff's #7d7466 only reaches 3.92:1 there. Still clearly lighter
+     * than --past and --muted, so the three states stay distinguishable. */
+    --future: #726a5a;
+
+    /* Brand */
+    --green: #1f5f5b;
+    --green-deep: #123f3c;
+    --green-link: #144643;
+    --green-mid: #3f7d63;
+    --gold: #c08a3e;
+
+    /* Progress figure */
+    --track: #e6dccb;
+    --tick-unreached: #cfc2ad;
+    --dot-future: #d9ccb8;
+
+    /* Type */
+    --serif: "Newsreader", Georgia, "Times New Roman", serif;
+    --sans: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+
+    /* Motion */
+    --ease-arc: cubic-bezier(.34, 1.56, .64, 1);
+    --ease-swoop: cubic-bezier(.22, 1.3, .36, 1);
+    --ease-option: cubic-bezier(.34, 1.5, .64, 1);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--serif);
+}
+
+.page {
+    min-height: 100vh;
+    padding: 34px 26px 60px;
+    background:
+        radial-gradient(1200px 600px at 12% -10%, rgba(31, 95, 91, .13), transparent 60%),
+        radial-gradient(900px 520px at 108% 112%, rgba(180, 133, 67, .16), transparent 60%),
+        linear-gradient(180deg, #f8f4ed 0%, #f2ece1 100%);
+}
+
+.shell {
+    max-width: 1180px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+/* --- Header ------------------------------------------------------------- */
+
+.masthead {
+    text-align: center;
+}
+
+/* Two eyebrows, two specs. The masthead's is 11px/.22em; the card's
+ * QUESTION/INFORMATION label is 10px/.2em. They looked alike enough to share a
+ * class and they are not the same thing. */
+.eyebrow {
+    margin: 0;
+    font-family: var(--sans);
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--muted-alt);
+}
+
+.masthead .eyebrow {
+    font-size: 11px;
+    letter-spacing: .22em;
+}
+
+.card-kind {
+    font-size: 10px;
+    letter-spacing: .2em;
+}
+
+.masthead-title {
+    margin: 10px 0 0;
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4.4vw, 3.1rem);
+    font-weight: 500;
+    line-height: 1.02;
+    letter-spacing: -.015em;
+    color: var(--green-deep);
+    text-wrap: balance;
+}
+
+.masthead-sub {
+    margin: 14px auto 0;
+    max-width: 46ch;
+    font-size: 1.02rem;
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+/* --- Two-column body ---------------------------------------------------- */
+
+.columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+/* The rail wraps above the card once the two flex bases plus the gap
+ * (250 + 520 + 24 = 794px) no longer fit inside the page padding (2 x 26px)
+ * -- so at roughly 846px of viewport.
+ *
+ * Stickiness is applied ONLY above that width, and deliberately not by
+ * switching it off in the 640px query. In a wrapped flex container the rail's
+ * sticky containing block is the whole of .columns, not its own line, so a
+ * sticky rail that has wrapped pins itself over the top of the question card
+ * for the card's entire height. On the longest screen in the flow
+ * (employment_routes_2, ~5,300 characters) that hides the copy the visitor is
+ * trying to read. The two thresholds must therefore agree.
+ */
+.rail {
+    flex: 1 1 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+@media (min-width: 850px) {
+    .rail {
+        max-width: 320px;
+        position: sticky;
+        top: 24px;
+    }
+}
+
+.main {
+    flex: 1 1 520px;
+    min-width: 0;
+}
+
+/* --- Component 1: progress figure --------------------------------------- */
+
+.figure-card {
+    background: linear-gradient(180deg, var(--panel) 0%, var(--panel-strong) 100%);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: 0 14px 34px rgba(49, 37, 17, .09);
+    padding: 12px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* The viewBox is sized so the head glow never reaches the edge. Do not add
+ * overflow: visible here -- the pulse would escape the card. */
+.ring {
+    width: 100%;
+    max-height: 190px;
+    height: auto;
+    display: block;
+}
+
+/* Applied for one frame by the script in flow.html while it snaps the figure
+ * back to the previous node's values. Without it, that snap would animate too
+ * and the ring would visibly run backwards before running forwards. */
+.ring-instant .ring-progress,
+.ring-instant .ring-head,
+.ring-instant .ring-tick,
+.ring-instant .ring-head-core,
+.ring-instant .ring-head-glow {
+    transition: none;
+}
+
+.ring-track {
+    fill: none;
+    stroke: var(--track);
+    stroke-width: 10;
+    stroke-linecap: round;
+}
+
+.ring-progress {
+    fill: none;
+    stroke: url(#arcGrad);
+    stroke-width: 10;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 980ms var(--ease-arc);
+}
+
+.ring-tick {
+    fill: var(--tick-unreached);
+    transition: fill 600ms ease;
+}
+
+.ring-tick.is-reached {
+    fill: var(--panel);
+}
+
+.ring-head {
+    transition: transform 980ms var(--ease-arc);
+}
+
+/* An unsupported colour in an SVG fill renders black rather than falling back,
+ * so the hex ramp is the default and oklch is layered on where it is
+ * understood. Both values are set inline on the <svg> by the template. */
+.ring-head-core,
+.ring-head-glow {
+    fill: var(--head-hex);
+    transition: fill 600ms ease;
+}
+
+@supports (color: oklch(0.5 0.1 180)) {
+    .ring-head-core,
+    .ring-head-glow {
+        fill: var(--head-oklch);
+    }
+}
+
+.ring-head-ring {
+    fill: var(--panel);
+}
+
+.ring-head-glow {
+    opacity: .26;
+    /* fill-box is required. Without it the scale resolves against the SVG
+     * viewBox and the glow flies out of the card. */
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: headPulse 2.4s ease-out infinite;
+}
+
+.ring-stage-number {
+    font-family: var(--serif);
+    font-size: 40px;
+    font-weight: 400;
+    fill: var(--green-deep);
+}
+
+.figure-meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 4px;
+}
+
+.figure-stage {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.figure-pct {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted-alt);
+}
+
+/* --- Component 2: stage list -------------------------------------------- */
+
+.stage-list {
+    list-style: none;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 4px 6px;
+}
+
+.stage-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 8px;
+    border-radius: 12px;
+}
+
+.stage-row.is-current {
+    background: rgba(255, 253, 248, .9);
+}
+
+.stage-dot {
+    flex: 0 0 auto;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--dot-future);
+}
+
+.stage-row.is-past .stage-dot {
+    background: var(--gold);
+}
+
+.stage-row.is-current .stage-dot {
+    background: var(--green);
+    box-shadow: 0 0 0 4px rgba(31, 95, 91, .16);
+}
+
+.stage-label {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--future);
+}
+
+.stage-row.is-past .stage-label {
+    color: var(--past);
+}
+
+.stage-row.is-current .stage-label {
+    color: var(--green-deep);
+}
+
+/* --- Component 3: answer trail ------------------------------------------ */
+
+.trail {
+    padding: 16px 18px;
+    border: 1px solid var(--border-trail);
+    border-radius: 20px;
+    background: rgba(255, 253, 248, .7);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.trail-heading {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--muted-alt);
+}
+
+.trail-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.trail-question {
+    font-size: .84rem;
+    line-height: 1.3;
+    color: var(--muted-alt);
+}
+
+.trail-answer {
+    font-size: .98rem;
+    line-height: 1.35;
+    color: var(--green-deep);
+}
+
+/* --- Component 4: question card ----------------------------------------- */
+
+.card {
+    background: linear-gradient(180deg, var(--panel) 0%, var(--panel-strong) 62%);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    box-shadow: 0 26px 60px rgba(49, 37, 17, .12);
+    overflow: hidden;
+}
+
+.card-strip {
+    height: 6px;
+    background: linear-gradient(90deg, var(--green), var(--gold));
+}
+
+.card-inner {
+    padding: 30px 32px 26px;
+}
+
+/* The whole content block enters on every node change. The page is
+ * server-rendered, so this simply runs on load -- no JS. */
+.card-content {
+    animation: swoop 520ms var(--ease-swoop) both;
+}
+
+.card-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.card-head-text {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card-title {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -.01em;
+    color: var(--ink);
+    text-wrap: pretty;
+}
+
+.card-logo {
+    flex: 0 0 auto;
+    height: 52px;
+    width: auto;
+    border-radius: 8px;
+}
+
+/* --- Parsed body text ---------------------------------------------------- */
+
+.node-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 22px 0 26px;
+    max-width: 68ch;
+}
+
+.node-text {
+    margin: 0;
+    font-size: 1.06rem;
+    line-height: 1.62;
+    color: var(--body);
+    overflow-wrap: anywhere;
+    text-wrap: pretty;
+}
+
+.node-subhead {
+    margin: 8px 0 0;
+    font-size: 1.16rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--green-deep);
+}
+
+/* Not in the handoff, which defines no numbered-list treatment. Added because
+ * on real content the omission inverts the hierarchy: in overseas_4_not_enough
+ * and domestic_2_no_degree the four "N)" points ARE the decision the candidate
+ * has to make, and they were rendering as flat body paragraphs with the digit
+ * buried in the text -- while a list of optional university-guide links two
+ * paragraphs below got clean gold markers. A hanging marker is the least
+ * invention that restores the right order. */
+/* An inline marker rather than a flex row with a hanging indent. Each of these
+ * points is completed by its own continuation lines -- an email address, a URL,
+ * an extra sentence -- which the parser emits as separate body blocks. A
+ * hanging indent would leave those continuations starting to the LEFT of the
+ * point they belong to, which reads worse than no indent at all. */
+.node-numbered {
+    margin: 0;
+    font-size: 1.06rem;
+    line-height: 1.62;
+    color: var(--body);
+    overflow-wrap: anywhere;
+    text-wrap: pretty;
+}
+
+.node-number {
+    font-family: var(--sans);
+    font-size: .95rem;
+    font-weight: 600;
+    color: var(--gold);
+    font-variant-numeric: tabular-nums;
+    margin-right: 6px;
+}
+
+/* The session-expiry note. Informational, not an error -- nothing the visitor
+ * typed is lost, because they never type anything. */
+.notice {
+    margin: 0 0 22px;
+    padding: 12px 16px;
+    border: 1px solid var(--border-trail);
+    border-left: 3px solid var(--gold);
+    border-radius: 12px;
+    background: rgba(255, 253, 248, .9);
+    font-size: .98rem;
+    line-height: 1.5;
+    color: var(--muted-alt);
+}
+
+.node-bullets {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.node-bullet {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+}
+
+.node-bullet::before {
+    content: "\25CF";
+    flex: 0 0 auto;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: var(--gold);
+}
+
+.node-body a {
+    color: var(--green-link);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: rgba(20, 70, 67, .35);
+    text-underline-offset: 3px;
+    overflow-wrap: anywhere;
+}
+
+.node-body a:hover,
+.node-body a:focus-visible {
+    text-decoration-color: var(--green-link);
+}
+
+/* --- Options ------------------------------------------------------------- */
+
+.options {
+    display: grid;
+    gap: 10px;
+}
+
+.option-form {
+    margin: 0;
+}
+
+.option-button {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    text-align: left;
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    color: var(--ink);
+    background: var(--panel-strong);
+    border: 1px solid var(--border-strong);
+    border-radius: 16px;
+    padding: 15px 18px;
+    cursor: pointer;
+    transition:
+        transform 180ms var(--ease-option),
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        background 180ms ease;
+}
+
+.option-button:hover,
+.option-button:focus-visible {
+    transform: translateY(-2px);
+    border-color: var(--green);
+    background: var(--panel);
+    box-shadow: 0 14px 28px rgba(31, 95, 91, .14);
+}
+
+/* Not folded into the rule above with an `outline: none` that a later rule
+ * undoes -- that works only while the file stays in this order, and one
+ * reorder would silently remove the sole visible focus indicator from the most
+ * important control on the page. */
+.option-button:focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 2px;
+}
+
+.option-button:active {
+    transform: translateY(1px) scale(.995);
+}
+
+.option-key {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border: 1px solid var(--border-strong);
+    border-radius: 50%;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.option-label {
+    flex: 1 1 auto;
+    line-height: 1.4;
+    text-wrap: pretty;
+}
+
+.option-arrow {
+    flex: 0 0 auto;
+    color: var(--gold);
+    font-size: 1.05rem;
+}
+
+/* --- Card footer --------------------------------------------------------- */
+
+.card-footer {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-soft);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 22px;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.footer-label {
+    font-size: .95rem;
+    color: var(--muted);
+    overflow-wrap: anywhere;
+}
+
+.footer-link {
+    color: var(--green-link);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.footer-link:hover,
+.footer-link:focus-visible {
+    text-decoration: underline;
+}
+
+.footer-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.back-form {
+    margin: 0;
+}
+
+/* The design's Back pill is deliberately chrome, not content: eight nodes
+ * already carry their own "Back" option button, so this one is a pill in the
+ * footer rather than another full-width option row. */
+.back-button {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: border-color 180ms ease, color 180ms ease;
+}
+
+.back-button:hover,
+.back-button:focus-visible {
+    border-color: var(--green);
+    color: var(--green-link);
+}
+
+.reset-form {
+    margin: 0;
+}
+
+/* A <button> now rather than an <a> -- see the note in flow.html. Styled to
+ * read as the text link it was, so the change is invisible to the visitor. */
+.reset-link {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--green-link);
+    background: none;
+    border: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.reset-link:hover,
+.reset-link:focus-visible {
+    color: var(--green-deep);
+}
+
+/* --- Motion -------------------------------------------------------------- */
+
+@keyframes swoop {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes headPulse {
+    0% {
+        transform: scale(1);
+        opacity: .5;
+    }
+
+    70%,
+    100% {
+        transform: scale(2.6);
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .card-content {
+        animation: none;
+    }
+
+    .ring-head-glow {
+        animation: none;
+        opacity: .26;
+    }
+
+    .ring-progress,
+    .ring-head,
+    .ring-tick,
+    .ring-head-core,
+    .ring-head-glow,
+    .option-button,
+    .back-button {
+        transition: none;
+    }
+
+    .option-button:hover,
+    .option-button:focus-visible,
+    .option-button:active {
+        transform: none;
+    }
+}
+
+/* --- Narrow viewports ---------------------------------------------------- */
+
+@media (max-width: 640px) {
+
+    .page {
+        padding: 22px 16px 16px;
+    }
+
+    .card-inner {
+        padding: 22px;
+    }
+
+    .card-logo {
+        height: 44px;
+    }
+
+    .node-text {
+        font-size: 1rem;
+    }
+
+    /* .rail needs nothing here: sticky is only ever applied above 850px. */
+    .card-footer {
+        align-items: flex-start;
+    }
+
+    .footer-actions {
+        margin-left: 0;
+    }
+}

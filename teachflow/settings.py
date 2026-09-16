@@ -14,6 +14,9 @@ import os
 
 from pathlib import Path
 
+from django.core.exceptions import ImproperlyConfigured
+from django.core.management.utils import get_random_secret_key
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -35,19 +38,79 @@ def _get_list_env(name: str, default: list[str]) -> list[str]:
     return [item.strip() for item in value.split(",") if item.strip()]
 
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-dev-only-change-me",
+# SECURITY WARNING: don't run with debug turned on in production!
+#
+# Defaults to False so that a deploy which forgets DJANGO_DEBUG fails closed
+# rather than publishing tracebacks to the open internet (Article 9). Local
+# development must therefore set DJANGO_DEBUG=1 -- see .env.example and the
+# "Local development" section of DEPLOYMENT.md.
+DEBUG = _get_bool_env("DJANGO_DEBUG", False)
+
+# Debug mode is the single input that turns off everything below: tracebacks go
+# public, secure cookies and HSTS are skipped, the SSL redirect is skipped, and
+# the secret key falls back to a throwaway. Failing closed on a *missing*
+# variable is not enough on its own, because the documented remedy for a
+# missing key would otherwise be "turn debug on" -- which is exactly the wrong
+# move on a server, and one that leaves the site looking perfectly healthy.
+#
+# So: refuse to start with debug on anywhere that advertises itself as hosted.
+_HOSTING_MARKERS = (
+    "WEBSITE_HOSTNAME",  # Azure App Service
+    "WEBSITE_SITE_NAME",  # Azure App Service
+    "DYNO",  # Heroku
+    "K_SERVICE",  # Cloud Run
 )
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = _get_bool_env("DJANGO_DEBUG", True)
+if DEBUG:
+    _hosted_by = next((m for m in _HOSTING_MARKERS if os.environ.get(m)), None)
+    if _hosted_by:
+        raise ImproperlyConfigured(
+            "DJANGO_DEBUG is enabled but {} is set, so this is a hosted "
+            "environment. Debug mode here would publish tracebacks, disable "
+            "secure cookies and HSTS, and sign every visitor's session with a "
+            "throwaway key. Unset DJANGO_DEBUG and set DJANGO_SECRET_KEY "
+            "instead.".format(_hosted_by)
+        )
+
+# SECURITY WARNING: keep the secret key used in production secret!
+#
+# Outside DEBUG this is required. Inside DEBUG a fresh random key is generated
+# per process rather than read from a literal in this file: a committed key is
+# one that signs real visitors' session cookies the moment debug mode reaches a
+# server by accident, and it is readable by anyone with the repository. The
+# cost of generating one is that local sessions do not survive a restart, which
+# is the right amount of inconvenient.
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+if not SECRET_KEY:
+    if not DEBUG:
+        raise ImproperlyConfigured(
+            "DJANGO_SECRET_KEY is not set and has no default outside DEBUG. "
+            "Set it in the environment. Do NOT set DJANGO_DEBUG=1 to work "
+            "around this on a server -- see the comment above."
+        )
+    SECRET_KEY = get_random_secret_key()
 
 ALLOWED_HOSTS = _get_list_env("DJANGO_ALLOWED_HOSTS", ["localhost", "127.0.0.1"])
 
 # Needed when deploying over HTTPS on a real domain.
 CSRF_TRUSTED_ORIGINS = _get_list_env("DJANGO_CSRF_TRUSTED_ORIGINS", [])
+
+# --- Sessions ---------------------------------------------------------------
+#
+# The flow's session holds the visitor's own answers (see the data
+# classification section of CLAUDE.md), so it is deliberately short-lived.
+# Django's defaults -- two weeks, surviving a browser close -- would keep a
+# record of someone's right-to-work and qualification answers on the server
+# long after they had finished with it, for no benefit to them.
+#
+# The session is written on most requests, which re-bases the expiry, so this
+# behaves as an hour of inactivity rather than an hour in total.
+SESSION_COOKIE_AGE = 3600
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# Expired rows are NOT removed automatically. `manage.py clearsessions` must run
+# on a schedule or django_session accumulates for the life of the deployment --
+# see DEPLOYMENT.md.
 
 
 # Application definition
