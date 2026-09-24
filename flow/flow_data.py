@@ -1,5 +1,24 @@
 # flow/flow_data.py
 
+# -----------------------------
+# SHARED LINKS
+# -----------------------------
+# Only links that appear in more than one node AND have changed at least once
+# live here. The rule is "hoist a repeated link the first time it changes, not
+# the first time it repeats" — info@glftt.org and the events link are repeated
+# far more often and have never moved, so they stay inline where a transcriber
+# can see them.
+#
+# Keep the "https://" scheme. urlize only recognises a bare domain for a short
+# list of TLDs (com, edu, gov, int, mil, net, org, or a www. prefix), and this
+# host ends in .microsoft — so without the scheme the URL would silently render
+# as unclickable grey text on all three screens.
+ENQUIRY_FORM_URL = (
+    "https://forms.cloud.microsoft/pages/responsepage.aspx"
+    "?id=A0fOQITwQUy0ICoaMUBRJ6y1g0Xjm71LjaZx0sst-dFUOTgxWFk0VE4zN0hSOTI1VkJEWkhGT1ZENiQlQCN0PWcu"
+    "&route=shorturl"
+)
+
 FLOW = {
     # -----------------------------
     # START / ELIGIBILITY
@@ -568,7 +587,7 @@ FLOW = {
         "title": "Next Steps 2",
         "text": (
             "Please complete our enquiry form, noting where you would like school experience:\n"
-            "https://forms.office.com/pages/responsepage.aspx?id=A0fOQITwQUy0ICoaMUBRJ6y1g0Xjm71LjaZx0sst-dFUQTZQUFhXU1ZFWUk5TVhXV05BQUNXV0c0QiQlQCN0PWcu&route=shorturl\n\n"
+            f"{ENQUIRY_FORM_URL}\n\n"
             "Alternatively, you can book onto GLF Teacher Training’s School Experience by emailing us and we can set this up "
             "for you:\n"
             "info@glftt.org"
@@ -645,7 +664,7 @@ FLOW = {
             "You may find coming to one of our weekly online information events useful to find out more:\n"
             "https://www.glftt.org/19/events\n\n"
             "You can also contact us on our enquiry form to find out more:\n"
-            "https://forms.office.com/pages/responsepage.aspx?id=A0fOQITwQUy0ICoaMUBRJ6y1g0Xjm71LjaZx0sst-dFUQTZQUFhXU1ZFWUk5TVhXV05BQUNXV0c0QiQlQCN0PWcu&route=shorturl"
+            f"{ENQUIRY_FORM_URL}"
         ),
         "options": [
             {"label": "Start over", "next": "start"},
@@ -677,7 +696,7 @@ FLOW = {
             "Please visit GLF’s Teacher Training Website:\n"
             "https://www.glftt.org\n\n"
             "Or fill in our enquiry form and we will be in touch:\n"
-            "https://forms.office.com/pages/responsepage.aspx?id=A0fOQITwQUy0ICoaMUBRJ6y1g0Xjm71LjaZx0sst-dFUQTZQUFhXU1ZFWUk5TVhXV05BQUNXV0c0QiQlQCN0PWcu&route=shorturl\n\n"
+            f"{ENQUIRY_FORM_URL}\n\n"
             "GLF Teacher Training has a lot to offer:\n"
             "• Whether you are considering joining as a graduate straight from university, moving into teaching from a school "
             "support role, or joining us as a career changer, there is a training route at GLF for you.\n"

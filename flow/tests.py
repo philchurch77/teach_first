@@ -1,10 +1,11 @@
 import os
+import re
 
 from django.conf import settings
 from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
 
-from .flow_data import FLOW
+from .flow_data import ENQUIRY_FORM_URL, FLOW
 from .progress import (
 	ARC_LEN,
 	NODE_PROGRESS,
@@ -162,6 +163,44 @@ class FlowGraphIntegrityTests(SimpleTestCase):
 			problems,
 			[],
 			"Malformed nodes:\n" + "\n".join(problems),
+		)
+
+	# Catches a node pointing at a closed enquiry form. The superseded 2026/27 URL
+	# survives on purpose in the design handoff prototype and in
+	# tools/flow_doc_extract.txt (the record of what the client actually sent), so
+	# the realistic failure is a transcriber copying a Microsoft Forms link out of
+	# either one instead of using ENQUIRY_FORM_URL -- leaving one screen of the only
+	# conversion funnel quietly pointing at a form GLF has closed. No URL is
+	# hard-coded here: the expected value is read from flow_data.py, so replacing the
+	# constant next year keeps this green.
+	def test_no_node_links_to_a_superseded_enquiry_form(self):
+		forms_url = re.compile(
+			r"https?://\S*?"
+			r"(?:forms\.office\.com|forms\.microsoft\.com|forms\.[\w-]+\.microsoft"
+			r"|office\.com/[Pp]ages/responsepage\.aspx|responsepage\.aspx)"
+			r"\S*",
+			re.IGNORECASE,
+		)
+
+		self.assertTrue(
+			forms_url.fullmatch(ENQUIRY_FORM_URL),
+			"ENQUIRY_FORM_URL {!r} is not matched by this test's own pattern, so the "
+			"test is no longer looking at anything.".format(ENQUIRY_FORM_URL),
+		)
+
+		offenders = []
+
+		for node_id in sorted(FLOW):
+			for found in forms_url.findall(str(FLOW[node_id].get("text") or "")):
+				if found != ENQUIRY_FORM_URL:
+					offenders.append("node {!r}: {}".format(node_id, found))
+
+		self.assertEqual(
+			offenders,
+			[],
+			"Enquiry form links in flow/flow_data.py that are not ENQUIRY_FORM_URL "
+			"(interpolate the constant; do not copy a URL out of the design handoff "
+			"or tools/flow_doc_extract.txt):\n" + "\n".join(offenders),
 		)
 
 
