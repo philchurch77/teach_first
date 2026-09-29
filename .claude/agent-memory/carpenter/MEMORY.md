@@ -1,0 +1,1 @@
+- [EOI constant review](review-eoi-constant.md) — rename verified clean 2026-09-29; three Low nits left open

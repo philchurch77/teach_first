@@ -5,7 +5,7 @@ from django.conf import settings
 from django.test import SimpleTestCase, TestCase
 from django.urls import reverse
 
-from .flow_data import ENQUIRY_FORM_URL, FLOW
+from .flow_data import EXPRESSION_OF_INTEREST_URL, FLOW
 from .progress import (
 	ARC_LEN,
 	NODE_PROGRESS,
@@ -165,15 +165,15 @@ class FlowGraphIntegrityTests(SimpleTestCase):
 			"Malformed nodes:\n" + "\n".join(problems),
 		)
 
-	# Catches a node pointing at a closed enquiry form. The superseded 2026/27 URL
-	# survives on purpose in the design handoff prototype and in
-	# tools/flow_doc_extract.txt (the record of what the client actually sent), so
-	# the realistic failure is a transcriber copying a Microsoft Forms link out of
-	# either one instead of using ENQUIRY_FORM_URL -- leaving one screen of the only
-	# conversion funnel quietly pointing at a form GLF has closed. No URL is
-	# hard-coded here: the expected value is read from flow_data.py, so replacing the
-	# constant next year keeps this green.
-	def test_no_node_links_to_a_superseded_enquiry_form(self):
+	# Catches a node pointing at a closed Microsoft enquiry form. Since 2026-09 the
+	# client's expression of interest is an Eteach job advert, so every Microsoft
+	# Forms URL is superseded. Two of them survive on purpose -- in the design
+	# handoff prototype and in tools/flow_doc_extract.txt (the record of what the
+	# client actually sent) -- so the realistic failure is a transcriber copying one
+	# out of either, leaving a screen of the only conversion funnel pointing at a
+	# form GLF has taken down. If the client ever moves the EOI back to Microsoft
+	# Forms, this fails on purpose: narrow the pattern to exclude the new constant.
+	def test_no_node_links_to_a_microsoft_enquiry_form(self):
 		forms_url = re.compile(
 			r"https?://\S*?"
 			r"(?:forms\.office\.com|forms\.microsoft\.com|forms\.[\w-]+\.microsoft"
@@ -182,25 +182,57 @@ class FlowGraphIntegrityTests(SimpleTestCase):
 			re.IGNORECASE,
 		)
 
-		self.assertTrue(
-			forms_url.fullmatch(ENQUIRY_FORM_URL),
-			"ENQUIRY_FORM_URL {!r} is not matched by this test's own pattern, so the "
-			"test is no longer looking at anything.".format(ENQUIRY_FORM_URL),
-		)
-
 		offenders = []
 
 		for node_id in sorted(FLOW):
 			for found in forms_url.findall(str(FLOW[node_id].get("text") or "")):
-				if found != ENQUIRY_FORM_URL:
+				offenders.append("node {!r}: {}".format(node_id, found))
+
+		self.assertEqual(
+			offenders,
+			[],
+			"Superseded Microsoft Forms enquiry links in flow/flow_data.py "
+			"(interpolate EXPRESSION_OF_INTEREST_URL; do not copy a URL out of the "
+			"design handoff or tools/flow_doc_extract.txt):\n" + "\n".join(offenders),
+		)
+
+	# Catches a stale EOI advert pasted by hand. Eteach adverts expire and are
+	# replaced with a new job id, so the failure expected next time is a transcriber
+	# pasting the new advert into one screen and missing the others. The /job/
+	# segment keeps the vacancies listing (eteach.com/careers/glfschools/) out of
+	# scope. No URL is hard-coded: the expected value is read from flow_data.py.
+	def test_every_eteach_job_advert_link_is_the_eoi_constant(self):
+		advert_url = re.compile(
+			r"https?://\S*eteach\.com/careers/glfschools/job/\S+",
+			re.IGNORECASE,
+		)
+
+		self.assertTrue(
+			advert_url.fullmatch(EXPRESSION_OF_INTEREST_URL),
+			"EXPRESSION_OF_INTEREST_URL {!r} is not matched by this test's own pattern, "
+			"so the test is no longer looking at anything.".format(EXPRESSION_OF_INTEREST_URL),
+		)
+
+		offenders = []
+		used = False
+
+		for node_id in sorted(FLOW):
+			for found in advert_url.findall(str(FLOW[node_id].get("text") or "")):
+				if found == EXPRESSION_OF_INTEREST_URL:
+					used = True
+				else:
 					offenders.append("node {!r}: {}".format(node_id, found))
 
 		self.assertEqual(
 			offenders,
 			[],
-			"Enquiry form links in flow/flow_data.py that are not ENQUIRY_FORM_URL "
-			"(interpolate the constant; do not copy a URL out of the design handoff "
-			"or tools/flow_doc_extract.txt):\n" + "\n".join(offenders),
+			"Eteach job advert links in flow/flow_data.py that are not "
+			"EXPRESSION_OF_INTEREST_URL (interpolate the constant):\n" + "\n".join(offenders),
+		)
+		self.assertTrue(
+			used,
+			"No node in flow/flow_data.py links EXPRESSION_OF_INTEREST_URL, so nothing "
+			"points visitors at the expression of interest.",
 		)
 
 

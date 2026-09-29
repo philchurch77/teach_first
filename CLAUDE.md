@@ -155,23 +155,29 @@ extract is also worth the thirty seconds.
   shared paragraph into a constant makes the next transcription harder. Repeated
   *URLs and email addresses* are a different matter and are worth hoisting. The
   working rule is **hoist a repeated link the first time it changes, not the
-  first time it repeats.** Only `ENQUIRY_FORM_URL` qualifies so far — the client
-  replaced that form for 2027/28 and it appeared in three nodes, so a fourth
-  change would have been three edits with one silently missable. `info@glftt.org`
-  and the events link are repeated far more often, have never moved, and stay
-  inline where a transcriber can see them.
-  **Keep the `https://` on a hoisted URL.** `urlize` only linkifies a bare domain
-  for a short TLD list (`com`, `edu`, `gov`, `int`, `mil`, `net`, `org`, or a
-  `www.` prefix), and the enquiry form host now ends in `.microsoft` — so without
-  the scheme the link renders as unclickable grey text on all three screens, with
-  nothing failing anywhere. Tested, not assumed.
-  The superseded `forms.office.com` URL deliberately survives in
+  first time it repeats.** Only `EXPRESSION_OF_INTEREST_URL` qualifies so far —
+  the client's "EOI", linked from three nodes (`next_steps_2`,
+  `closing_statement_2`, `closing_statement_4`). It has moved twice, both times in
+  September 2026: first to a replacement Microsoft Form, then to a job advert in
+  GLF's Eteach candidate management system. `info@glftt.org` and the
+  events link are repeated far more often, have never moved, and stay inline
+  where a transcriber can see them. The vacancies *listing*
+  (`eteach.com/careers/glfschools/`, in `employment_routes_2`) is a different
+  link from the EOI advert and is not the constant.
+  **Keep the `https://` on a hoisted URL, whatever its host.** `urlize` only
+  linkifies a bare domain for a short TLD list (`com`, `edu`, `gov`, `int`,
+  `mil`, `net`, `org`, or a `www.` prefix). The previous form's host ended in
+  `.microsoft`, and without the scheme it rendered as unclickable grey text on
+  all three screens, with nothing failing anywhere. Tested, not assumed.
+  Superseded Microsoft Forms URLs deliberately survive in
   `design_handoff_eligibility_checker/` and `tools/flow_doc_extract.txt`: the
   first is a non-authoritative received artefact, the second is the record of what
   the client actually sent, and editing it would make the next document diff lie.
   A grep for `forms.office` will keep returning those hits forever and they are
-  correct. `test_no_node_links_to_a_superseded_enquiry_form` is what stops one
-  being copied back into `FLOW`.
+  correct. `test_no_node_links_to_a_microsoft_enquiry_form` is what stops one
+  being copied back into `FLOW`, and
+  `test_every_eteach_job_advert_link_is_the_eoi_constant` is what stops a new
+  advert id being pasted into one screen by hand.
 - Content is plain text and the template autoescapes. **HTML in a `text` value
   renders as visible literal markup.** You cannot add markup from the content
   side — but you no longer need to for headings and bullets, because
@@ -229,7 +235,7 @@ an `@` or a currency figure.
 DJANGO_DEBUG=1 .venv/Scripts/python.exe manage.py test flow
 ```
 
-43 tests in seven classes — `FlowViewTests` 3, `FlowGraphIntegrityTests` 5,
+44 tests in seven classes — `FlowViewTests` 3, `FlowGraphIntegrityTests` 6,
 `ProgressModelTests` 4, `FlowNavigationTests` 20, `TextBlockTests` 5,
 `TemplateCommentSyntaxTests` 2, `RingGeometryTests` 4.
 
@@ -370,6 +376,16 @@ Decisions, not defects. Each of these looks like a bug until you know why.
   split may no longer be needed.** Confirm before doing it.
 - Several nodes still carry pre-2021 visa terminology ("Tier 2", "Tier 4") and
   future-tense references to January 2021. The client has not revised them.
+- **The EOI advert expires on 30 June 2027.** `EXPRESSION_OF_INTEREST_URL` is an
+  Eteach job advert, and adverts close. Ask the client for its replacement well
+  before then, or three screens of the conversion funnel link to a closed advert.
+  There is deliberately no date-based test: one would go red on a calendar date
+  and block whatever unrelated deploy happened that week.
+- **The three EOI screens still say "enquiry form"**, but the link is now a job
+  advert with Fast Apply. `next_steps_2` asks the visitor to note "where you
+  would like school experience", which the advert may have no field for, and
+  `closing_statement_2` — the "not ready yet" goodbye — now sends them to an
+  application. Flagged to the client 2026-09-29; the wording is theirs to change.
 
 ### Accepted, with the reason
 

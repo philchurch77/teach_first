@@ -9,14 +9,19 @@
 # far more often and have never moved, so they stay inline where a transcriber
 # can see them.
 #
-# Keep the "https://" scheme. urlize only recognises a bare domain for a short
-# list of TLDs (com, edu, gov, int, mil, net, org, or a www. prefix), and this
-# host ends in .microsoft — so without the scheme the URL would silently render
-# as unclickable grey text on all three screens.
-ENQUIRY_FORM_URL = (
-    "https://forms.cloud.microsoft/pages/responsepage.aspx"
-    "?id=A0fOQITwQUy0ICoaMUBRJ6y1g0Xjm71LjaZx0sst-dFUOTgxWFk0VE4zN0hSOTI1VkJEWkhGT1ZENiQlQCN0PWcu"
-    "&route=shorturl"
+# Always keep the "https://" scheme. urlize only recognises a bare domain for a
+# short list of TLDs (com, edu, gov, int, mil, net, org, or a www. prefix); the
+# previous enquiry form's host ended in .microsoft and would have rendered as
+# unclickable grey text without it.
+#
+# The client's expression of interest (EOI) — "the EOI" in their documents. Since
+# 2026-09 it is a job advert in GLF's Eteach candidate management system, not a
+# Microsoft Form. THE ADVERT EXPIRES 30 JUNE 2027: ask the client for its
+# replacement before then, or three screens link to a closed advert.
+# Not to be confused with the vacancies listing (eteach.com/careers/glfschools/)
+# linked inline in employment_routes_2 — that is a different link.
+EXPRESSION_OF_INTEREST_URL = (
+    "https://www.eteach.com/careers/glfschools/job/trainee-teacher-1576354/?lang=en-GB"
 )
 
 FLOW = {
@@ -587,7 +592,7 @@ FLOW = {
         "title": "Next Steps 2",
         "text": (
             "Please complete our enquiry form, noting where you would like school experience:\n"
-            f"{ENQUIRY_FORM_URL}\n\n"
+            f"{EXPRESSION_OF_INTEREST_URL}\n\n"
             "Alternatively, you can book onto GLF Teacher Training’s School Experience by emailing us and we can set this up "
             "for you:\n"
             "info@glftt.org"
@@ -664,7 +669,7 @@ FLOW = {
             "You may find coming to one of our weekly online information events useful to find out more:\n"
             "https://www.glftt.org/19/events\n\n"
             "You can also contact us on our enquiry form to find out more:\n"
-            f"{ENQUIRY_FORM_URL}"
+            f"{EXPRESSION_OF_INTEREST_URL}"
         ),
         "options": [
             {"label": "Start over", "next": "start"},
@@ -696,7 +701,7 @@ FLOW = {
             "Please visit GLF’s Teacher Training Website:\n"
             "https://www.glftt.org\n\n"
             "Or fill in our enquiry form and we will be in touch:\n"
-            f"{ENQUIRY_FORM_URL}\n\n"
+            f"{EXPRESSION_OF_INTEREST_URL}\n\n"
             "GLF Teacher Training has a lot to offer:\n"
             "• Whether you are considering joining as a graduate straight from university, moving into teaching from a school "
             "support role, or joining us as a career changer, there is a training route at GLF for you.\n"
